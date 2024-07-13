@@ -14,7 +14,7 @@ namespace Engine
         _window = nullptr;
         _screenHeight = 768;
         _screenWidth = 1366;
-        engineState = Game::RUNNING;
+        engineState = Engine::RUNNING;
 
         std::cout << "Initializing Window..." << std::endl;
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0)

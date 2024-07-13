@@ -4,7 +4,7 @@
 #include <math.h>
 #include <filesystem>
 #include "Shader.hpp"
-#include "Game.hpp"
+#include "Engine.hpp"
 #include <stb_image/stb_image.h>
 
 #include <glm/glm.hpp>
@@ -15,7 +15,7 @@ int main(int c, char **argv)
 {
     std::cout << "Current working directory: " << std::__fs::filesystem::current_path() << std::endl;
 
-    Game::Init();
+    Engine::Init();
 
     Shader myShader("shaders/vertex.glsl", "shaders/fragment.glsl");
 
@@ -144,10 +144,10 @@ int main(int c, char **argv)
     // vec = trans * vec;
     // std::cout << vec.x << " " << vec.y << " " << vec.z << std::endl;
 
-    while (Game::engineState == Game::RUNNING) //ik its bad, this will be fixed
+    while (Engine::engineState == Engine::RUNNING) //ik its bad, this will be fixed
     {
 
-        Game::processInput();
+        Engine::processInput();
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -167,12 +167,12 @@ int main(int c, char **argv)
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-        Game::Update();
+        Engine::Update();
     }
 
     glDeleteVertexArrays(1, &VAO);
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
-    Game::Quit();
+    Engine::Quit();
     return EXIT_SUCCESS;
 }
