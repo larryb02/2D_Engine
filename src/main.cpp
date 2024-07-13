@@ -144,7 +144,7 @@ int main(int c, char **argv)
     // vec = trans * vec;
     // std::cout << vec.x << " " << vec.y << " " << vec.z << std::endl;
 
-    while (Game::_gState == Game::RUNNING) //ik its bad, this will be fixed
+    while (Game::engineState == Game::RUNNING) //ik its bad, this will be fixed
     {
 
         Game::processInput();
