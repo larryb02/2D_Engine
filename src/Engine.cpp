@@ -6,15 +6,16 @@ namespace Engine
     SDL_GLContext _context;
     SDL_Event _ev;
     unsigned int _screenHeight, _screenWidth;
-    State engineState;
+    State _engineState;
+    // std::vector<renderData> renderQueue;
 
     void Init()
     {
 
         _window = nullptr;
-        _screenHeight = 768;
-        _screenWidth = 1366;
-        engineState = Engine::RUNNING;
+        _screenHeight = 600;
+        _screenWidth = 800;
+        _engineState = Engine::RUNNING;
 
         std::cout << "Initializing Window..." << std::endl;
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
@@ -47,6 +48,7 @@ namespace Engine
             std::cerr << "Failed to init GLAD" << std::endl;
             exit(EXIT_FAILURE);
         }
+        glEnable(GL_DEPTH_TEST);
         glViewport(0, 0, _screenWidth, _screenHeight);
     }
 
@@ -58,9 +60,16 @@ namespace Engine
             switch (_ev.type)
             {
             case SDL_QUIT:
-                engineState = QUIT;
+                _engineState = QUIT;
                 break;
-
+            case SDL_KEYDOWN:
+                if (_ev.key.keysym.sym == SDLK_w)
+                if (_ev.key.keysym.sym == SDLK_a)
+                if (_ev.key.keysym.sym == SDLK_s)
+                if (_ev.key.keysym.sym == SDLK_d)
+                    
+                // std::cout << kc << std::endl;
+                break;
             default:
                 break;
             }
@@ -79,6 +88,19 @@ namespace Engine
         SDL_GL_DeleteContext(_context);
         SDL_DestroyWindow(_window);
         SDL_Quit();
+    }
+
+    State getState()
+    {
+        return _engineState;
+    }
+    unsigned int getScreenWidth()
+    {
+        return _screenWidth;
+    }
+    unsigned int getScreenHeight()
+    {
+        return _screenHeight;
     }
 
 }

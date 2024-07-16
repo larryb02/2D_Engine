@@ -1,0 +1,5 @@
+- Write Texture Class
+- Refactor makefile so it generates object files
+- Make _window a smart pointer
+
+

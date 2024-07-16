@@ -1,20 +1,26 @@
 #ifndef TEXTURE_HPP
 #define TEXTURE_HPP
 
-// #include <iostream>
+#include <string>
 class Texture
 {
     public:
-        Texture(const char *texName);
+        Texture(std::string texname);
     public:
-        unsigned char *LoadTexture();
+        void Load(std::string filePath);
+        void CreateTexture();
+        std::string getFileName();
+        unsigned int getID();
+        unsigned int getWidth();
+        unsigned int getHeight();
+        unsigned char *getData();
 
     private:
-        const int width, height, numChannels, desiredChannels, ID;
-        // const std::string texName;
-    
-    
-
-}
+        int width, height, numChannels;
+        unsigned int ID;
+        unsigned char *data;
+        std::string filename;
+        std::string texname; //potentially useful identifier, will remove if proven wrong
+};
 
 #endif
