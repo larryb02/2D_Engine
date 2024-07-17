@@ -1,8 +1,9 @@
 #include "Texture.hpp"
-#include <stb_image.h>
+#include <stb_image/stb_image.h>
 #include <filesystem>
 #include <iostream>
 #include <glad/glad.h>
+
 
 Texture::Texture(std::string texname)
 {
@@ -19,7 +20,8 @@ void Texture::Load(std::string filePath)
         std::cout << pathName.c_str() << " does not exist" << std::endl;
         return;
     }
-    //check file type to determine whether to flip image
+    //check file extension to determine whether to flip image
+    std::cout << "Loading " << getFileName().c_str() << std::endl;
     this->data = stbi_load(getFileName().c_str(), &this->width, &this->height, &this->numChannels, 0);
     if(getData() == nullptr) //test this out
     {

@@ -7,11 +7,15 @@
 
 namespace Renderer
 {
-    typedef struct RenderData
+    typedef struct RenderItems
     {
-        void createRenderData();
-    } RenderData;
+        void createRenderItems();
+    } RenderItems;
 
+    class SpriteRenderer
+    {
+
+    };
 
     void ClearBuffer();
     void CheckError(const char *file, const char *line);

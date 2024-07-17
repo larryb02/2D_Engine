@@ -1,5 +1,8 @@
-- Write Texture Class
 - Refactor makefile so it generates object files
 - Make _window a smart pointer
+- Write test cases for:
+    - Texture Class
+- Write scene Class
+- Figure out render schematics
 
 

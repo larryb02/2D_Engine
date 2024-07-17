@@ -3,7 +3,10 @@
 
 class Scene
 {
-
+    public:
+        Scene();
+    private:
+        unsigned int sceneWidth, sceneHeight; 
 };
 
 #endif
