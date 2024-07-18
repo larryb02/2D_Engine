@@ -9,8 +9,8 @@ namespace Engine
 {
 
     // state
-    enum State { RUNNING, PAUSED, QUIT }; //thinking about moving this to game logic
-    enum WindowMode {FULLSCREEN, BORDERLESS, WINDOWED};
+    enum State { RUNNING, QUIT };
+    enum WindowMode { FULLSCREEN, BORDERLESS, WINDOWED };
     // functions
     void Init();
     void processInput();

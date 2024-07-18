@@ -2,20 +2,20 @@
 
 namespace Engine
 {
-    SDL_Window *_window;
-    SDL_GLContext _context;
-    SDL_Event _ev;
-    unsigned int _screenHeight, _screenWidth;
-    State _engineState;
+    SDL_Window *m_window;
+    SDL_GLContext m_context;
+    SDL_Event m_ev;
+    unsigned int m_screenHeight, m_screenWidth;
+    State m_engineState;
     // std::vector<renderData> renderQueue;
 
     void Init()
     {
 
-        _window = nullptr;
-        _screenHeight = 600;
-        _screenWidth = 800;
-        _engineState = Engine::RUNNING;
+        m_window = nullptr;
+        m_screenHeight = 600;
+        m_screenWidth = 800;
+        m_engineState = Engine::RUNNING;
 
         std::cout << "Initializing Window..." << std::endl;
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
@@ -29,11 +29,11 @@ namespace Engine
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-        if ((_window = SDL_CreateWindow("VIDEO_GAME",
+        if ((m_window = SDL_CreateWindow("VIDEO_GAME",
                                         SDL_WINDOWPOS_CENTERED,
                                         SDL_WINDOWPOS_CENTERED,
-                                        _screenWidth,
-                                        _screenHeight,
+                                        m_screenWidth,
+                                        m_screenHeight,
                                         SDL_WINDOW_OPENGL)) == nullptr)
         {
             std::cerr << "Failed to init SDL Window" << SDL_GetError()
@@ -41,7 +41,7 @@ namespace Engine
             SDL_Quit();
         }
 
-        _context = SDL_GL_CreateContext(_window);
+        m_context = SDL_GL_CreateContext(m_window);
 
         if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
         {
@@ -49,24 +49,24 @@ namespace Engine
             exit(EXIT_FAILURE);
         }
         glEnable(GL_DEPTH_TEST);
-        glViewport(0, 0, _screenWidth, _screenHeight);
+        glViewport(0, 0, m_screenWidth, m_screenHeight);
     }
 
     void processInput()
     {
         // for now just handle closing window
-        while (SDL_PollEvent(&_ev))
+        while (SDL_PollEvent(&m_ev))
         {
-            switch (_ev.type)
+            switch (m_ev.type)
             {
             case SDL_QUIT:
-                _engineState = QUIT;
+                m_engineState = QUIT;
                 break;
             case SDL_KEYDOWN:
-                if (_ev.key.keysym.sym == SDLK_w)
-                if (_ev.key.keysym.sym == SDLK_a)
-                if (_ev.key.keysym.sym == SDLK_s)
-                if (_ev.key.keysym.sym == SDLK_d)
+                if (m_ev.key.keysym.sym == SDLK_w)
+                if (m_ev.key.keysym.sym == SDLK_a)
+                if (m_ev.key.keysym.sym == SDLK_s)
+                if (m_ev.key.keysym.sym == SDLK_d)
                     
                 // std::cout << kc << std::endl;
                 break;
@@ -78,29 +78,29 @@ namespace Engine
 
     void Update()
     {
-        SDL_GL_SwapWindow(_window);
+        SDL_GL_SwapWindow(m_window);
         SDL_Delay(16);
     }
 
     void Quit()
     {
         std::cout << "Closing..." << std::endl;
-        SDL_GL_DeleteContext(_context);
-        SDL_DestroyWindow(_window);
+        SDL_GL_DeleteContext(m_context);
+        SDL_DestroyWindow(m_window);
         SDL_Quit();
     }
 
     State getState()
     {
-        return _engineState;
+        return m_engineState;
     }
     unsigned int getScreenWidth()
     {
-        return _screenWidth;
+        return m_screenWidth;
     }
     unsigned int getScreenHeight()
     {
-        return _screenHeight;
+        return m_screenHeight;
     }
 
 }

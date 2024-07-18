@@ -4,5 +4,6 @@
     - Texture Class
 - Write scene Class
 - Figure out render schematics
+    - Create Render Data types
 
 
