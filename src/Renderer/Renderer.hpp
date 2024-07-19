@@ -2,11 +2,11 @@
 #ifndef RENDERER_HPP
 #define RENDERER_HPP
 
-#include <glm/glm.hpp>
+// #include <glm/glm.hpp>
 #include <vector>
 // #include "Texture.hpp"
 #include "./Types/RenderData.hpp"
-#include <glad/glad.h>
+// #include <glad/glad.h>
 
 /* things i want renderer to be able to do
     - store multiple VAOs, VBOs, EBOs, FBs
