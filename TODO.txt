@@ -1,10 +1,19 @@
 - Refactor makefile so it generates object files
 - Make _window a smart pointer
+    - convert all pointers to smart pointers eventually
 - Write test cases for:
     - Texture Class
-- Write scene Class
 - Figure out render schematics
+    - Render Pipeline:
+        - Scene > Objects in scene > get necessary info from objects, create render data > render
+        - All user has to deal with is importing data
     - Create Render Data types
-- potentially make a header with common includes?
+        - This will probably get overhauled later
+        - Currently: Render Data is an object that contains necessary data to perform draw/binding calls
+            - Need to create solution to data layout problem, (This is where a Vertex class/struct would be useful)
+        - Need to handle indices/element buffers
+    - determine where shaders should be passed during render calls
+    
+- potentially make a header with common includes, and macros?
 
 

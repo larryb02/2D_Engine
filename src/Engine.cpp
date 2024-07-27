@@ -13,8 +13,8 @@ namespace Engine
     {
 
         m_window = nullptr;
-        m_screenHeight = 600;
-        m_screenWidth = 800;
+        m_screenHeight = 768;
+        m_screenWidth = 1366;
         m_engineState = Engine::RUNNING;
 
         std::cout << "Initializing Window..." << std::endl;

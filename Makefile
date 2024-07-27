@@ -1,6 +1,6 @@
 SRC_DIR = src
 BUILD_DIR = build
-SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp $(SRC_DIR)/*.c $(SRC_DIR)/*/*.cpp)
+SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp $(SRC_DIR)/*.c $(SRC_DIR)/*/*.cpp $(SRC_DIR)/*/*/*.cpp)
 INCLUDE_PATHS = -Iinclude/ -Iinclude/SDL2
 LIBRARY_PATHS = -Llib/SDL2
 COMPILER_FLAGS = -Wall -g -std=c++17

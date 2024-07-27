@@ -5,7 +5,7 @@
 // #include <glm/glm.hpp>
 #include <vector>
 // #include "Texture.hpp"
-#include "./Types/RenderData.hpp"
+#include "./Types/RenderTypes.hpp"
 // #include <glad/glad.h>
 
 /* things i want renderer to be able to do
@@ -19,13 +19,18 @@
         - Debug: Render lines around models
 */
 
+
+//Render Pipeline:
+// list of data to draw per frame gets pushed to a list, (from respected sources)
+// every frame a render call is made, 
+// renderer creates the RenderData then renders the items
 namespace Renderer
 {
     enum RenderMode { DEBUG };
     
-    void Render(const RenderData rd);
+    void Render(std::vector<RenderData> &rd);
     void ClearBuffer(glm::vec3 color);
-    GLenum CheckError_(const char *file, const char *line);
+    GLenum CheckError_(const char *file, int line);
     
     #define CheckError() CheckError_(__FILE__, __LINE__)
 }
