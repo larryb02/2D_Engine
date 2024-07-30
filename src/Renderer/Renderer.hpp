@@ -28,7 +28,7 @@ namespace Renderer
 {
     enum RenderMode { DEBUG };
     
-    void Render(std::vector<RenderData> &rd);
+    void Render(std::vector<RenderData> &rd, Shader &shader);
     void ClearBuffer(glm::vec3 color);
     GLenum CheckError_(const char *file, int line);
     

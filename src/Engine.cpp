@@ -7,9 +7,11 @@ namespace Engine
     SDL_Event m_ev;
     unsigned int m_screenHeight, m_screenWidth;
     State m_engineState;
+    SDL_Keycode keydown;
+    SDL_Keycode keyup;
     // std::vector<renderData> renderQueue;
 
-    void Init()
+    void Init(uint32_t height, uint32_t width, std::string title)
     {
 
         m_window = nullptr;
@@ -30,11 +32,11 @@ namespace Engine
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
         if ((m_window = SDL_CreateWindow("VIDEO_GAME",
-                                        SDL_WINDOWPOS_CENTERED,
-                                        SDL_WINDOWPOS_CENTERED,
-                                        m_screenWidth,
-                                        m_screenHeight,
-                                        SDL_WINDOW_OPENGL)) == nullptr)
+                                         SDL_WINDOWPOS_CENTERED,
+                                         SDL_WINDOWPOS_CENTERED,
+                                         m_screenWidth,
+                                         m_screenHeight,
+                                         SDL_WINDOW_OPENGL)) == nullptr)
         {
             std::cerr << "Failed to init SDL Window" << SDL_GetError()
                       << std::endl;
@@ -50,30 +52,6 @@ namespace Engine
         }
         glEnable(GL_DEPTH_TEST);
         glViewport(0, 0, m_screenWidth, m_screenHeight);
-    }
-
-    void processInput()
-    {
-        // for now just handle closing window
-        while (SDL_PollEvent(&m_ev))
-        {
-            switch (m_ev.type)
-            {
-            case SDL_QUIT:
-                m_engineState = QUIT;
-                break;
-            case SDL_KEYDOWN:
-                if (m_ev.key.keysym.sym == SDLK_w)
-                if (m_ev.key.keysym.sym == SDLK_a)
-                if (m_ev.key.keysym.sym == SDLK_s)
-                if (m_ev.key.keysym.sym == SDLK_d)
-                    
-                // std::cout << kc << std::endl;
-                break;
-            default:
-                break;
-            }
-        }
     }
 
     void Update()
@@ -101,6 +79,36 @@ namespace Engine
     unsigned int getScreenHeight()
     {
         return m_screenHeight;
+    }
+    void processInput()
+    {
+        // for now just handle closing window
+        while (SDL_PollEvent(&m_ev))
+        {
+            switch (m_ev.type)
+            {
+            case SDL_QUIT:
+                m_engineState = QUIT;
+                break;
+            
+            default:
+                keydown = 0;
+                keyup = 0;
+                break;
+            }
+            // std::cout << (int32_t)keydown << " " << "Key Pressed | Code: " << std::endl;
+            // std::cout << (int32_t)keyup << " " << "Key Released | Code: " << std::endl;
+        }
+    }
+
+    SDL_Keycode getKeyDown()
+    {
+        return keydown;
+    }
+
+    SDL_Keycode getKeyUp()
+    {
+        return keyup;
     }
 
 }

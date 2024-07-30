@@ -12,7 +12,7 @@ namespace Engine
     enum State { RUNNING, QUIT };
     enum WindowMode { FULLSCREEN, BORDERLESS, WINDOWED };
     // functions
-    void Init();
+    void Init(uint32_t height, uint32_t width, std::string title);
     void processInput();
     void Render();
     void Update();
@@ -23,6 +23,11 @@ namespace Engine
     WindowMode getWindowMode();
     unsigned int getScreenWidth();
     unsigned int getScreenHeight();
+    SDL_Window *getWindowPointer(); //probly change to window pointer
+    SDL_Event *getEventPointer(); //probly change to window pointer
+    SDL_Keycode getKeyDown();
+    SDL_Keycode getKeyUp();
+    
 
 }
 

@@ -1,16 +1,37 @@
 #include "RenderTypes.hpp"
 // #include <cstddef>
 
+Vertex::Vertex(float x, float y, float z)
+{
+    this->pos = glm::vec3(x, y, z);
+}
+
 
 RenderData::RenderData(std::vector<float> &vertices) //basic object
 {
-    this->m_vertexCount = vertices.size()/2;
+    this->m_vertexCount = vertices.size()/3;
     glGenVertexArrays(1, &this->m_vao);
     glGenBuffers(1, &this->m_vbo);
     glBindVertexArray(this->m_vao);
     glBindBuffer(GL_ARRAY_BUFFER, this->m_vbo);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+}
+
+RenderData::RenderData(std::vector<Vertex> &vertices) //basic object
+{
+    this->m_vertexCount = vertices.size();
+    glGenVertexArrays(1, &this->m_vao);
+    glGenBuffers(1, &this->m_vbo);
+    glBindVertexArray(this->m_vao);
+    glBindBuffer(GL_ARRAY_BUFFER, this->m_vbo);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+    // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, offsetof(Vertex, rgb), (void*)0);
+
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);

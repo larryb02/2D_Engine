@@ -13,7 +13,12 @@
             - Need to create solution to data layout problem, (This is where a Vertex class/struct would be useful)
         - Need to handle indices/element buffers
     - determine where shaders should be passed during render calls
+    - Rewrite Vertex Struct and get it to work
+        - Works, add more properties as i go
     - Lets work on world space right now?
+        - Set up camera potentially, create a small test "game"
+        - Translating models
+    - Textures, Sprites, etc...
 - potentially make a header with common includes, and macros?
 
 
