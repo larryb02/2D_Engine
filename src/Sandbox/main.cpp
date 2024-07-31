@@ -8,24 +8,30 @@
 // #include <stb_image/stb_image.h>
 
 // #include <glm/glm.hpp>
-// #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 // #include <glm/gtc/type_ptr.hpp>
 /*
 Tasks:
 1. Create movable "player"
 2. Create a background... tentative
-3.
+3. 
 */
 
 typedef struct Player
 {
     Player(std::vector<Vertex> &vertexData)
     {
-        this->pos = glm::vec2(0.0f); // start at origin.
+        this->pos = glm::vec3(0.0f); // start at origin.
+        this->model = glm::mat4(1.0f);
         this->vertexData = vertexData;
     };
+    void calcTransform()
+    {
+        this->model = glm::translate(this->model, this->pos);
+    };
     std::vector<Vertex> vertexData;
-    glm::vec2 pos;
+    glm::vec3 pos;
+    glm::mat4 model;
 } Player;
 
 int main(int c, char **argv)
@@ -87,9 +93,6 @@ int main(int c, char **argv)
                                  0.5f, -0.5f};
 
     std::vector<Vertex> verts{Vertex(-0.5f, -0.5f, 0.0f), Vertex(-0.5f, 0.5f, 0.0f), Vertex(0.5f, -0.5f, 0.0f)};
-    RenderData rd(vertices);
-
-    std::vector<RenderData> data{verts, rd};
     std::vector<Vertex> playerData{Vertex(-0.25f, -0.25f, 0.0f),
                                    Vertex(-0.25f, 0.25f, 0.0f),
                                    Vertex(0.25f, -0.25f, 0.0f),
@@ -98,6 +101,7 @@ int main(int c, char **argv)
                                    Vertex(0.25f, -0.25f, 0.0f)};
     Uint8 *keyState;
     Player p1(playerData);
+    
     while (Engine::getState() == Engine::RUNNING)
     {
         int numKeys = 0;
@@ -106,29 +110,31 @@ int main(int c, char **argv)
         if (keyState[SDL_SCANCODE_W] == 1)
         {
             std::cout << "w key pressed" << std::endl;
-            p1.pos.y += 1.0f;
+            p1.pos.y += 0.01f;
         }
         if (keyState[SDL_SCANCODE_A] == 1)
         {
             std::cout << "a key pressed" << std::endl;
-            p1.pos.x += 1.0f;
+            p1.pos.x -= 0.01f;
         }
         if (keyState[SDL_SCANCODE_S] == 1)
         {
             std::cout << "s key pressed" << std::endl;
-            p1.pos.x -= 1.0f;
+            p1.pos.y -= 0.01f;
         }
         if (keyState[SDL_SCANCODE_D] == 1)
         {
             std::cout << "d key pressed" << std::endl;
-            p1.pos.y -= 1.0f;
+            p1.pos.x += 0.01f;
         }
         std::cout << "x: " << p1.pos.x << " " << "y: " << p1.pos.y << std::endl;
+        p1.calcTransform();
+        std::vector<RenderData> data{RenderData(playerData, p1.model)};
         // Renderer::ClearBuffer(glm::vec3(0.0, 0.0, 0.0));
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         Renderer::Render(data, shader);
-
+        p1.pos.x = p1.pos.y = 0.0f;
         Engine::Update();
     }
 

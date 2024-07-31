@@ -7,8 +7,9 @@ Vertex::Vertex(float x, float y, float z)
 }
 
 
-RenderData::RenderData(std::vector<float> &vertices) //basic object
+RenderData::RenderData(std::vector<float> &vertices, glm::mat4 &model) //basic object
 {
+    this->m_model = model;
     this->m_vertexCount = vertices.size()/3;
     glGenVertexArrays(1, &this->m_vao);
     glGenBuffers(1, &this->m_vbo);
@@ -21,8 +22,9 @@ RenderData::RenderData(std::vector<float> &vertices) //basic object
     glBindVertexArray(0);
 }
 
-RenderData::RenderData(std::vector<Vertex> &vertices) //basic object
+RenderData::RenderData(std::vector<Vertex> &vertices, glm::mat4 &model) //basic object
 {
+    this->m_model = model;
     this->m_vertexCount = vertices.size();
     glGenVertexArrays(1, &this->m_vao);
     glGenBuffers(1, &this->m_vbo);
@@ -46,6 +48,11 @@ unsigned int RenderData::getVAO() const
 unsigned int RenderData::getVertexCount() const
 {
     return this->m_vertexCount;
+}
+
+glm::mat4 RenderData::getModel() const
+{
+    return this->m_model;
 }
 
 // TODO: If i decide there is a need for these i will implement

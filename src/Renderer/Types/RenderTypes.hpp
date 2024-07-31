@@ -24,14 +24,16 @@ class RenderData
 {
 public:
     // constructors
-    RenderData(std::vector<float> &vertices); 
-    RenderData(std::vector<Vertex> &vertices); 
+    RenderData(std::vector<float> &vertices, glm::mat4 &model); 
+    RenderData(std::vector<Vertex> &vertices, glm::mat4 &model); 
     // accessors
     unsigned int getVAO() const;
     unsigned int getVertexCount() const;
+    glm::mat4 getModel() const;
 
 private:
     unsigned int m_vao, m_vbo, m_vertexCount;
+    glm::mat4 m_transform, m_model;
 };
 
 #endif

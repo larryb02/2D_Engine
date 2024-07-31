@@ -62,13 +62,13 @@ void Renderer::Render(std::vector<RenderData> &rd, Shader &shader)
     //^ can just combine these 3 and pass that to a shader every frame
     for (int i = 0; i < rd.size(); i++)
     {
-        model = glm::mat4(1.0f);
+        // model = glm::mat4(1.0f);
         // model = glm::scale(model, glm::vec3(100.0f, 100.0f, 0.0f));
-        model = glm::translate(model, pos[i]);
+        // model = glm::translate(model, pos[i]);
         shader.Use();
         shader.setMat4("projection", projection);
         shader.setMat4("view", view);
-        shader.setMat4("model", model);
+        shader.setMat4("model", rd[i].getModel());
         // bind vao
         glBindVertexArray(rd[i].getVAO());
         
