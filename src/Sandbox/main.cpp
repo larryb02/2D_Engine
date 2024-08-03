@@ -6,10 +6,11 @@
 #include "../Engine.hpp"
 #include "../Input/Input.hpp"
 #include "../Renderer/Renderer.hpp"
-// #include <stb_image/stb_image.h>
 
-// #include <glm/glm.hpp>
+// #include <stb_image/stb_image.h>
+#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/string_cast.hpp>
 // #include <glm/gtc/type_ptr.hpp>
 /*
 Tasks:
@@ -22,45 +23,54 @@ typedef struct Player
 {
     Player(std::vector<Vertex> &vertexData)
     {
-        this->pos = glm::vec3(0.0f); // start at origin.
-        this->model = glm::mat4(1.0f);
-        this->vertexData = vertexData;
+        pos = glm::vec3(0.0f); // start at origin.
+        model = glm::mat4(1.0f);
+        vertexData = vertexData; //real world would just pass 'renderData'
+        velocity = glm::vec3(0.0f);
     };
-    void calcTransform(glm::vec3 velocity)
+    void calcTransform()
     {
-        this->model = glm::translate(this->model, this->pos);
+        // std::cout << "x: " << pos.x << " " << "y: " << pos.y << " " << "z: " << pos.z << std::endl;
+        this->model = glm::translate(model, velocity);
+        
     };
     void handleInput()
     {
         if (Input::keyPressed(SDL_SCANCODE_W))
         {
             std::cout << "w key pressed" << std::endl;
-            this->pos.y;
+            velocity.y += 0.01f;
             // p1.pos.y += 0.01f;
         }
         if (Input::keyPressed(SDL_SCANCODE_A))
         {
             std::cout << "a key pressed" << std::endl;
-            this->pos.x;
+            velocity.x -= 0.01f;
             // p1.pos.x -= 0.01f;
         }
         if (Input::keyPressed(SDL_SCANCODE_S))
         {
             std::cout << "s key pressed" << std::endl;
-            this->pos.y;
+            velocity.y -= 0.01f;
             // p1.pos.y -= 0.01f;
         }
         if (Input::keyPressed(SDL_SCANCODE_D))
         {
             std::cout << "d key pressed" << std::endl;
-            this->pos.x;
+            velocity.x += 0.01f;
             // p1.pos.x += 0.01f;
         }
     };
-    void Update();
+    void Update()
+    {
+        pos += velocity;
+        velocity = glm::vec3(0.0f);
+        std::cout << "x: " << pos.x << " | " << "y: " << pos.y << std::endl;
+    };
     std::vector<Vertex> vertexData;
     glm::vec3 pos;
     glm::mat4 model;
+    glm::vec3 velocity;
 } Player;
 
 int main(int c, char **argv)
@@ -132,46 +142,54 @@ int main(int c, char **argv)
     // int numKeys;
     // keyState = (Uint8 *)SDL_GetKeyboardState(&numKeys);
     Player p1(playerData);
+    glm::mat4 view = glm::mat4(1.0f);
+    glm::vec3 position = glm::vec3(0.0f, 0.0f, -0.3f);
+    // Camera gameCamera = Camera(view, position);
+    // std::vector<RenderData> data{RenderData(playerData, p1.model, &gameCamera)};
     
     while (Engine::getState() == Engine::RUNNING)
     {
         
         Engine::processInput();
         
-        if (Input::keyPressed(SDL_SCANCODE_W))
-        {
-            // std::cout << "w key pressed" << std::endl;
-            p1.pos.y += 0.01f;
-        }
+        // if (Input::keyPressed(SDL_SCANCODE_W))
+        // {
+        //     // std::cout << "w key pressed" << std::endl;
+        //     p1.pos.y += 0.01f;
+        // }
         
-        if (Input::keyPressed(SDL_SCANCODE_A))
-        {
-            // std::cout << "a key pressed" << std::endl;
-            p1.pos.x -= 0.01f;
-        }
+        // if (Input::keyPressed(SDL_SCANCODE_A))
+        // {
+        //     // std::cout << "a key pressed" << std::endl;
+        //     p1.pos.x -= 0.01f;
+        // }
         
-        if (Input::keyPressed(SDL_SCANCODE_S))
-        {
-            // std::cout << "s key pressed" << std::endl;
-            p1.pos.y -= 0.01f;
-        }
+        // if (Input::keyPressed(SDL_SCANCODE_S))
+        // {
+        //     // std::cout << "s key pressed" << std::endl;
+        //     p1.pos.y -= 0.01f;
+        // }
         
-        if (Input::keyPressed(SDL_SCANCODE_D))
-        {
-            // std::cout << "d key pressed" << std::endl;
-            p1.pos.x += 0.01f;
-        }
+        // if (Input::keyPressed(SDL_SCANCODE_D))
+        // {
+        //     // std::cout << "d key pressed" << std::endl;
+        //     p1.pos.x += 0.01f;
+        // }
         
-        // p1.handleInput();
-        std::cout << "x: " << p1.pos.x << " " << "y: " << p1.pos.y << std::endl; //fix later, want this to be player coords
+        
+        // std::cout << "x: " << p1.pos.x << " " << "y: " << p1.pos.y << std::endl; //fix later, want this to be player coords
         //need a global position variable, and a vector to pass to calcTransform for model matrix translation
-        p1.calcTransform(glm::vec3(0.0f));
         std::vector<RenderData> data{RenderData(playerData, p1.model)};
+        p1.handleInput();
+        p1.calcTransform();
+        p1.Update();
+        // p1.calcTransform();
+        // p1.pos.x = p1.pos.y = 0.0f;
+        // std::cout << glm::to_string(p1.model) << std::endl;
         // Renderer::ClearBuffer(glm::vec3(0.0, 0.0, 0.0));
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         Renderer::Render(data, shader);
-        p1.pos.x = p1.pos.y = 0.0f;
         Engine::Update();
     }
 

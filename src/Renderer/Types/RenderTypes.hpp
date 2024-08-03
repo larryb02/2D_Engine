@@ -2,9 +2,10 @@
 #define RENDERDATA_HPP
 
 #include <glad/glad.h>
-#include <glm/glm.hpp>
+// #include <glm/glm.hpp>
 #include "../../ResourceManager/Texture.hpp"
 #include "../../Shader.hpp"
+// #include "../../Camera.cpp"
 
 
 // i want this to contain all potential buffers, textures, and shaders needed to render an item so i can just pass a list of these to renderer
@@ -25,18 +26,21 @@ class RenderData
 {
 public:
     // constructors
+    // RenderData(std::vector<float> &vertices, glm::mat4 &model, Camera *camera); 
+    // RenderData(std::vector<Vertex> &vertices, glm::mat4 &model, Camera *camera);
     RenderData(std::vector<float> &vertices, glm::mat4 &model); 
-    RenderData(std::vector<Vertex> &vertices, glm::mat4 &model); 
+    RenderData(std::vector<Vertex> &vertices, glm::mat4 &model);
     // accessors
     unsigned int getVAO() const;
     unsigned int getVertexCount() const;
-    glm::mat4 getModel() const;
-    glm::mat4 getView() const;
-    glm::mat4 getProjection() const;
+    const glm::mat4 &getModel() const; //nor does this
+    glm::mat4 getProjection() const; //doesn't belong here
+    // const Camera *getCamera() const;
 
 private:
     unsigned int m_vao, m_vbo, m_vertexCount;
     glm::mat4 m_model;
+    // Camera *m_cameraData;
     
 };
 

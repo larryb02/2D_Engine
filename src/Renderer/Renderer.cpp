@@ -1,6 +1,9 @@
 #include "Renderer.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
+
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/string_cast.hpp>
 
 void Renderer::ClearBuffer(glm::vec3 color) //FIX
 {
@@ -49,7 +52,7 @@ void Renderer::Render(std::vector<RenderData> &rd, Shader &shader)
     
     std::vector<glm::vec3> pos = {glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f)};
     // 
-    projection = glm::mat4(1.0f);
+    // projection = glm::mat4(1.0f);
     // projection = glm::ortho(0.0f, 800.0f, 600.0f, 0.0f, 0.1f, 100.0f);
     projection = glm::ortho(-2.0f, +2.0f, -1.5f, +1.5f, 0.1f, 100.0f);
     // projection = glm::perspective(60.0f, 1366.0f/ 768.0f, 0.1f, 100.0f);
@@ -64,10 +67,13 @@ void Renderer::Render(std::vector<RenderData> &rd, Shader &shader)
     {
         // model = glm::mat4(1.0f);
         // model = glm::scale(model, glm::vec3(100.0f, 100.0f, 0.0f));
-        // model = glm::translate(model, pos[i]);
+        // model = glm::translate(model, glm::vec3(0.3f, -0.3f, 0.0f));
         shader.Use();
         shader.setMat4("projection", projection);
+        // shader.setMat4("view", rd[i].getCamera()->getView());
         shader.setMat4("view", view);
+        // std::cout << glm::to_string(rd[i].getModel()) << std::endl;
+        
         shader.setMat4("model", rd[i].getModel());
         // bind vao
         glBindVertexArray(rd[i].getVAO());
