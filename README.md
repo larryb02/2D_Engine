@@ -12,7 +12,9 @@ Will update with images and features
                     - how do i handle stride, offset, etc...
     - Solution:
 - Render Architecture:
-                
+
+### Directory Structure
+
 ### How To Run
 
 Currently I only have a makefile for my personal environment. However I plan on making a cmake in the future.

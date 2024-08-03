@@ -16,15 +16,15 @@
     - Rewrite Vertex Struct and get it to work
         - Works, add more properties as i go
     - Lets work on world space right now?
-        - Set up camera potentially, create a small test "game"
-            - as i expand features keep adding to test game
         - Translating models to world/clip space
             - store uniforms in Shader, or store them in render data
                 - shader makes more sense, add function to iteratively set uniforms
     - Textures, Sprites, etc...
 - Proper Input System
-    - Create methods that 
-- potentially make a header with common includes, and macros?
+    - Create methods that provide interface to keyboardstate, gamepad state, and mouse state
+- potentially make a header with common includes
 - Considering separating windowing into its own class
+- Camera class 
+
 
 

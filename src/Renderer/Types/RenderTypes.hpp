@@ -6,6 +6,7 @@
 #include "../../ResourceManager/Texture.hpp"
 #include "../../Shader.hpp"
 
+
 // i want this to contain all potential buffers, textures, and shaders needed to render an item so i can just pass a list of these to renderer
 // the user should understand the format of their data or have a file with the data, so all they have to do is pass that, then renderer handles rest :)
 
@@ -17,7 +18,7 @@
 typedef struct Vertex
 {
     Vertex(float x, float y, float z);
-    glm::vec3 pos;
+    glm::vec3 m_pos;
 } Vertex;
 
 class RenderData
@@ -30,10 +31,13 @@ public:
     unsigned int getVAO() const;
     unsigned int getVertexCount() const;
     glm::mat4 getModel() const;
+    glm::mat4 getView() const;
+    glm::mat4 getProjection() const;
 
 private:
     unsigned int m_vao, m_vbo, m_vertexCount;
-    glm::mat4 m_transform, m_model;
+    glm::mat4 m_model;
+    
 };
 
 #endif

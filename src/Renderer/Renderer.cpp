@@ -2,7 +2,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include <iostream>
 
-void Renderer::ClearBuffer(glm::vec3 color)
+void Renderer::ClearBuffer(glm::vec3 color) //FIX
 {
     glClearColor(color.x, color.y, color.z, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);

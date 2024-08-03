@@ -8,9 +8,9 @@
 Texture::Texture(std::string texname)
 {
     //could also check if file exists here?
-    this->data = nullptr;
-    this->width = this->height = this->numChannels = 0;
-    this->texname = texname;
+    m_data = nullptr;
+    m_width = m_height = m_numChannels = 0;
+    m_texname = texname;
 }
 
 void Texture::Load(std::string filePath)
@@ -22,7 +22,7 @@ void Texture::Load(std::string filePath)
     }
     //check file extension to determine whether to flip image
     std::cout << "Loading " << getFileName().c_str() << std::endl;
-    this->data = stbi_load(getFileName().c_str(), &this->width, &this->height, &this->numChannels, 0);
+    m_data = stbi_load(getFileName().c_str(), &m_width, &m_height, &m_numChannels, 0);
     if(getData() == nullptr) //test this out
     {
         std::cout << "Failed to load texture" << std::endl;
@@ -37,7 +37,7 @@ void Texture::CreateTexture()
         std::cout << "Texture Data is Null" << std::endl;
         return;
     }
-    glGenTextures(1, &this->ID);
+    glGenTextures(1, &m_ID);
     glBindTexture(GL_TEXTURE_2D, getID());
     //tex params, check to see if these are what i'd want
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -50,26 +50,26 @@ void Texture::CreateTexture()
 
 std::string Texture::getFileName()
 {
-    return this->filename;
+    return m_filename;
 }
 
 unsigned int Texture::getID()
 {
-    return this->ID;
+    return m_ID;
 }
 
 unsigned int Texture::getWidth()
 {
-    return this->width;
+    return m_width;
 }
 
 unsigned int Texture::getHeight()
 {
-    return this->height;
+    return m_height;
 }
 
 unsigned char *Texture::getData()
 {
-    return this->data;
+    return m_data;
 }
 

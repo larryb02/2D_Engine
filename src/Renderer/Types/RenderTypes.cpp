@@ -3,18 +3,18 @@
 
 Vertex::Vertex(float x, float y, float z)
 {
-    this->pos = glm::vec3(x, y, z);
+    m_pos = glm::vec3(x, y, z);
 }
 
 
 RenderData::RenderData(std::vector<float> &vertices, glm::mat4 &model) //basic object
 {
-    this->m_model = model;
-    this->m_vertexCount = vertices.size()/3;
-    glGenVertexArrays(1, &this->m_vao);
-    glGenBuffers(1, &this->m_vbo);
-    glBindVertexArray(this->m_vao);
-    glBindBuffer(GL_ARRAY_BUFFER, this->m_vbo);
+    m_model = model;
+    m_vertexCount = vertices.size()/3;
+    glGenVertexArrays(1, &m_vao);
+    glGenBuffers(1, &m_vbo);
+    glBindVertexArray(m_vao);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
     glEnableVertexAttribArray(0);
@@ -24,12 +24,12 @@ RenderData::RenderData(std::vector<float> &vertices, glm::mat4 &model) //basic o
 
 RenderData::RenderData(std::vector<Vertex> &vertices, glm::mat4 &model) //basic object
 {
-    this->m_model = model;
-    this->m_vertexCount = vertices.size();
-    glGenVertexArrays(1, &this->m_vao);
-    glGenBuffers(1, &this->m_vbo);
-    glBindVertexArray(this->m_vao);
-    glBindBuffer(GL_ARRAY_BUFFER, this->m_vbo);
+    m_model = model;
+    m_vertexCount = vertices.size();
+    glGenVertexArrays(1, &m_vao);
+    glGenBuffers(1, &m_vbo);
+    glBindVertexArray(m_vao);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
     // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, offsetof(Vertex, rgb), (void*)0);
@@ -41,18 +41,18 @@ RenderData::RenderData(std::vector<Vertex> &vertices, glm::mat4 &model) //basic 
 
 unsigned int RenderData::getVAO() const
 {
-    return this->m_vao;
+    return m_vao;
 }
 
 
 unsigned int RenderData::getVertexCount() const
 {
-    return this->m_vertexCount;
+    return m_vertexCount;
 }
 
 glm::mat4 RenderData::getModel() const
 {
-    return this->m_model;
+    return m_model;
 }
 
 // TODO: If i decide there is a need for these i will implement

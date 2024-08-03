@@ -16,11 +16,11 @@ class Texture
         unsigned char *getData();
 
     private:
-        int width, height, numChannels;
-        unsigned int ID;
-        unsigned char *data;
-        std::string filename;
-        std::string texname; //potentially useful identifier, will remove if proven wrong
+        int m_width, m_height, m_numChannels;
+        unsigned int m_ID;
+        unsigned char *m_data;
+        std::string m_filename;
+        std::string m_texname; //potentially useful identifier, will remove if proven wrong
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include <filesystem>
 #include "../Shader.hpp"
 #include "../Engine.hpp"
+#include "../Input/Input.hpp"
 #include "../Renderer/Renderer.hpp"
 // #include <stb_image/stb_image.h>
 
@@ -25,10 +26,38 @@ typedef struct Player
         this->model = glm::mat4(1.0f);
         this->vertexData = vertexData;
     };
-    void calcTransform()
+    void calcTransform(glm::vec3 velocity)
     {
         this->model = glm::translate(this->model, this->pos);
     };
+    void handleInput()
+    {
+        if (Input::keyPressed(SDL_SCANCODE_W))
+        {
+            std::cout << "w key pressed" << std::endl;
+            this->pos.y;
+            // p1.pos.y += 0.01f;
+        }
+        if (Input::keyPressed(SDL_SCANCODE_A))
+        {
+            std::cout << "a key pressed" << std::endl;
+            this->pos.x;
+            // p1.pos.x -= 0.01f;
+        }
+        if (Input::keyPressed(SDL_SCANCODE_S))
+        {
+            std::cout << "s key pressed" << std::endl;
+            this->pos.y;
+            // p1.pos.y -= 0.01f;
+        }
+        if (Input::keyPressed(SDL_SCANCODE_D))
+        {
+            std::cout << "d key pressed" << std::endl;
+            this->pos.x;
+            // p1.pos.x += 0.01f;
+        }
+    };
+    void Update();
     std::vector<Vertex> vertexData;
     glm::vec3 pos;
     glm::mat4 model;
@@ -99,36 +128,44 @@ int main(int c, char **argv)
                                    Vertex(0.25f, 0.25f, 0.0f),
                                    Vertex(-0.25f, 0.25f, 0.0f),
                                    Vertex(0.25f, -0.25f, 0.0f)};
-    Uint8 *keyState;
+    // Uint8 *keyState;
+    // int numKeys;
+    // keyState = (Uint8 *)SDL_GetKeyboardState(&numKeys);
     Player p1(playerData);
     
     while (Engine::getState() == Engine::RUNNING)
     {
-        int numKeys = 0;
+        
         Engine::processInput();
-        keyState = (Uint8 *)SDL_GetKeyboardState(&numKeys);
-        if (keyState[SDL_SCANCODE_W] == 1)
+        
+        if (Input::keyPressed(SDL_SCANCODE_W))
         {
-            std::cout << "w key pressed" << std::endl;
+            // std::cout << "w key pressed" << std::endl;
             p1.pos.y += 0.01f;
         }
-        if (keyState[SDL_SCANCODE_A] == 1)
+        
+        if (Input::keyPressed(SDL_SCANCODE_A))
         {
-            std::cout << "a key pressed" << std::endl;
+            // std::cout << "a key pressed" << std::endl;
             p1.pos.x -= 0.01f;
         }
-        if (keyState[SDL_SCANCODE_S] == 1)
+        
+        if (Input::keyPressed(SDL_SCANCODE_S))
         {
-            std::cout << "s key pressed" << std::endl;
+            // std::cout << "s key pressed" << std::endl;
             p1.pos.y -= 0.01f;
         }
-        if (keyState[SDL_SCANCODE_D] == 1)
+        
+        if (Input::keyPressed(SDL_SCANCODE_D))
         {
-            std::cout << "d key pressed" << std::endl;
+            // std::cout << "d key pressed" << std::endl;
             p1.pos.x += 0.01f;
         }
-        std::cout << "x: " << p1.pos.x << " " << "y: " << p1.pos.y << std::endl;
-        p1.calcTransform();
+        
+        // p1.handleInput();
+        std::cout << "x: " << p1.pos.x << " " << "y: " << p1.pos.y << std::endl; //fix later, want this to be player coords
+        //need a global position variable, and a vector to pass to calcTransform for model matrix translation
+        p1.calcTransform(glm::vec3(0.0f));
         std::vector<RenderData> data{RenderData(playerData, p1.model)};
         // Renderer::ClearBuffer(glm::vec3(0.0, 0.0, 0.0));
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

@@ -72,14 +72,17 @@ namespace Engine
     {
         return m_engineState;
     }
+
     unsigned int getScreenWidth()
     {
         return m_screenWidth;
     }
+
     unsigned int getScreenHeight()
     {
         return m_screenHeight;
     }
+
     void processInput()
     {
         // for now just handle closing window
@@ -90,7 +93,8 @@ namespace Engine
             case SDL_QUIT:
                 m_engineState = QUIT;
                 break;
-            
+            case SDL_WINDOWEVENT:
+                break;
             default:
                 keydown = 0;
                 keyup = 0;
