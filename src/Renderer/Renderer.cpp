@@ -70,10 +70,8 @@ void Renderer::Render(std::vector<RenderData> &rd, Shader &shader)
         // model = glm::translate(model, glm::vec3(0.3f, -0.3f, 0.0f));
         shader.Use();
         shader.setMat4("projection", projection);
-        // shader.setMat4("view", rd[i].getCamera()->getView());
-        shader.setMat4("view", view);
-        // std::cout << glm::to_string(rd[i].getModel()) << std::endl;
-        
+        shader.setMat4("view", rd[i].getCamera()->getView());
+        // shader.setMat4("view", view);
         shader.setMat4("model", rd[i].getModel());
         // bind vao
         glBindVertexArray(rd[i].getVAO());

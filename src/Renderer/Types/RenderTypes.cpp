@@ -7,43 +7,10 @@ Vertex::Vertex(float x, float y, float z)
 }
 
 
-// RenderData::RenderData(std::vector<float> &vertices, glm::mat4 &model, Camera *camera) //basic object
-// {
-//     m_model = model;
-//     m_cameraData = camera;
-//     m_vertexCount = vertices.size()/3;
-
-//     glGenVertexArrays(1, &m_vao);
-//     glGenBuffers(1, &m_vbo);
-//     glBindVertexArray(m_vao);
-//     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-//     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), vertices.data(), GL_STATIC_DRAW);
-//     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-//     glEnableVertexAttribArray(0);
-//     glBindBuffer(GL_ARRAY_BUFFER, 0);
-//     glBindVertexArray(0);
-// }
-
-// RenderData::RenderData(std::vector<Vertex> &vertices, glm::mat4 &model, Camera *camera) //basic object
-// {
-//     m_model = model;
-//     m_cameraData = camera;
-//     m_vertexCount = vertices.size();
-
-//     glGenVertexArrays(1, &m_vao);
-//     glGenBuffers(1, &m_vbo);
-//     glBindVertexArray(m_vao);
-//     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-//     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
-//     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-//     // glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex) * offsetof(Vertex, rgb), (void*)0);
-//     glEnableVertexAttribArray(0);
-//     glBindBuffer(GL_ARRAY_BUFFER, 0);
-//     glBindVertexArray(0);
-// }
-RenderData::RenderData(std::vector<float> &vertices, glm::mat4 &model) 
+RenderData::RenderData(std::vector<float> &vertices, glm::mat4 &model, Camera *camera) //basic object
 {
     m_model = model;
+    m_cameraData = camera;
     m_vertexCount = vertices.size()/3;
 
     glGenVertexArrays(1, &m_vao);
@@ -57,9 +24,10 @@ RenderData::RenderData(std::vector<float> &vertices, glm::mat4 &model)
     glBindVertexArray(0);
 }
 
-RenderData::RenderData(std::vector<Vertex> &vertices, glm::mat4 &model) 
+RenderData::RenderData(std::vector<Vertex> &vertices, glm::mat4 &model, Camera *camera) //basic object
 {
     m_model = model;
+    m_cameraData = camera;
     m_vertexCount = vertices.size();
 
     glGenVertexArrays(1, &m_vao);
@@ -90,10 +58,10 @@ const glm::mat4 &RenderData::getModel() const
     return m_model;
 }
 
-// const Camera *RenderData::getCamera() const
-// {
-//     return m_cameraData;
-// }
+const Camera *RenderData::getCamera() const
+{
+    return m_cameraData;
+}
 
 // TODO: If i decide there is a need for these i will implement
 
