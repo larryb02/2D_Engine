@@ -8,6 +8,9 @@ LINKER_FLAGS = -lSDL2
 CC = g++ 
 
 compile: $(SRC_FILES)
+	$(CC) $(COMPILER_FLAGS) $(LINKER_FLAGS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(SRC_FILES) -g -o $(BUILD_DIR)/main
+
+compile-verbose: $(SRC_FILES)
 	$(CC) $(COMPILER_FLAGS) $(LINKER_FLAGS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(SRC_FILES) -g -v -o $(BUILD_DIR)/main
 
 clean:

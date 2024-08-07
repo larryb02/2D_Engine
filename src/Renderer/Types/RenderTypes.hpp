@@ -2,9 +2,7 @@
 #define RENDERDATA_HPP
 
 #include <glad/glad.h>
-// #include <glm/glm.hpp>
-#include "../../ResourceManager/Texture.hpp"
-#include "../../Shader.hpp"
+#include "../Shader.hpp"
 #include "../../Camera.hpp"
 
 

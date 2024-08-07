@@ -63,6 +63,12 @@ const Camera *RenderData::getCamera() const
     return m_cameraData;
 }
 
+
+
+
+
+
+
 // TODO: If i decide there is a need for these i will implement
 
 // RenderData::RenderData(float vertices[], glm::vec3 rgb)

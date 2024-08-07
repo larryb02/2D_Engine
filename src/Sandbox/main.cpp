@@ -2,21 +2,21 @@
 
 #include <math.h>
 #include <filesystem>
-#include "../Shader.hpp"
 #include "../Engine.hpp"
 #include "../Input/Input.hpp"
 #include "../Renderer/Renderer.hpp"
+#include "../Scene/Entity.hpp"
 
-// #include <stb_image/stb_image.h>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
 // #include <glm/gtc/type_ptr.hpp>
+
 /*
 Tasks:
 1. Create movable "player"
 2. Create a background... tentative
-3. 
+3. Create a level
 */
 
 typedef struct Player
@@ -25,38 +25,32 @@ typedef struct Player
     {
         pos = glm::vec3(0.0f); // start at origin.
         model = glm::mat4(1.0f);
-        vertexData = vertexData; //real world would just pass 'renderData'
+        m_vertexData = vertexData; //real world would just pass 'renderData'
         velocity = glm::vec3(0.0f);
-    };
-    void calcTransform()
-    {
-        // std::cout << "x: " << pos.x << " " << "y: " << pos.y << " " << "z: " << pos.z << std::endl;
-        this->model = glm::translate(model, velocity);
-        
     };
     void handleInput()
     {
         if (Input::keyPressed(SDL_SCANCODE_W))
         {
-            std::cout << "w key pressed" << std::endl;
+            // std::cout << "w key pressed" << std::endl;
             velocity.y += 0.01f;
             // p1.pos.y += 0.01f;
         }
         if (Input::keyPressed(SDL_SCANCODE_A))
         {
-            std::cout << "a key pressed" << std::endl;
+            // std::cout << "a key pressed" << std::endl;
             velocity.x -= 0.01f;
             // p1.pos.x -= 0.01f;
         }
         if (Input::keyPressed(SDL_SCANCODE_S))
         {
-            std::cout << "s key pressed" << std::endl;
+            // std::cout << "s key pressed" << std::endl;
             velocity.y -= 0.01f;
             // p1.pos.y -= 0.01f;
         }
         if (Input::keyPressed(SDL_SCANCODE_D))
         {
-            std::cout << "d key pressed" << std::endl;
+            // std::cout << "d key pressed" << std::endl;
             velocity.x += 0.01f;
             // p1.pos.x += 0.01f;
         }
@@ -64,10 +58,11 @@ typedef struct Player
     void Update()
     {
         pos += velocity;
+        this->model = glm::translate(model, velocity);
         velocity = glm::vec3(0.0f);
         std::cout << "x: " << pos.x << " | " << "y: " << pos.y << std::endl;
     };
-    std::vector<Vertex> vertexData;
+    std::vector<Vertex> m_vertexData;
     glm::vec3 pos;
     glm::mat4 model;
     glm::vec3 velocity;
@@ -78,75 +73,20 @@ int main(int c, char **argv)
     std::cout << "Current working directory: " << std::__fs::filesystem::current_path() << std::endl;
     Engine::Init(0, 0, "");
     Shader shader("shaders/BasicVertexShader.glsl", "shaders/BasicFragmentShader.glsl");
-    std::vector<float> vertices{-0.5f, -0.5f, 0.0f,
-                                -0.5f, 0.5f, 0.0f,
-                                0.5f, -0.5f, 0.0f,
-                                0.5f, 0.5f, 0.0f,
-                                -0.5f, 0.5f, 0.0f,
-                                0.5f, -0.5f, 0.0f};
-
-    std::vector<float> cube{-0.5f, -0.5f, -0.5,
-                            0.5f, -0.5f, -0.5f,
-                            0.5f, 0.5f, -0.5f,
-                            0.5f, 0.5f, -0.5f,
-                            -0.5f, 0.5f, -0.5f,
-                            -0.5f, -0.5f, -0.5f,
-
-                            -0.5f, -0.5f, 0.5f,
-                            0.5f, -0.5f, 0.5f,
-                            0.5f, 0.5f, 0.5f,
-                            0.5f, 0.5f, 0.5f,
-                            -0.5f, 0.5f, 0.5f,
-                            -0.5f, -0.5f, 0.5f,
-
-                            -0.5f, 0.5f, 0.5f,
-                            -0.5f, 0.5f, -0.5f,
-                            -0.5f, -0.5f, -0.5,
-                            -0.5f, -0.5f, -0.5,
-                            -0.5f, -0.5f, 0.5f,
-                            -0.5f, 0.5f, 0.5f,
-
-                            0.5f, 0.5f, 0.5f,
-                            0.5f, 0.5f, -0.5f,
-                            0.5f, -0.5f, -0.5f,
-                            0.5f, -0.5f, -0.5f,
-                            0.5f, -0.5f, 0.5f,
-                            0.5f, 0.5f, 0.5f,
-
-                            -0.5f, -0.5f, -0.5,
-                            0.5f, -0.5f, -0.5f,
-                            0.5f, -0.5f, 0.5f,
-                            0.5f, -0.5f, 0.5f,
-                            -0.5f, -0.5f, 0.5f,
-                            -0.5f, -0.5f, -0.5,
-
-                            -0.5f, 0.5f, -0.5f,
-                            0.5f, 0.5f, -0.5f,
-                            0.5f, 0.5f, 0.5f,
-                            0.5f, 0.5f, 0.5f,
-                            -0.5f, 0.5f, 0.5f,
-                            -0.5f, 0.5f, -0.5f};
-
-    std::vector<float> vertices2{-0.5f, -0.5f,
-                                 -0.5f, 0.5f,
-                                 0.5f, -0.5f};
-
-    std::vector<Vertex> verts{Vertex(-0.5f, -0.5f, 0.0f), Vertex(-0.5f, 0.5f, 0.0f), Vertex(0.5f, -0.5f, 0.0f)};
+    // 
     std::vector<Vertex> playerData{Vertex(-0.25f, -0.25f, 0.0f),
                                    Vertex(-0.25f, 0.25f, 0.0f),
                                    Vertex(0.25f, -0.25f, 0.0f),
                                    Vertex(0.25f, 0.25f, 0.0f),
                                    Vertex(-0.25f, 0.25f, 0.0f),
                                    Vertex(0.25f, -0.25f, 0.0f)};
-    // Uint8 *keyState;
-    // int numKeys;
-    // keyState = (Uint8 *)SDL_GetKeyboardState(&numKeys);
-    
+
     Player p1(playerData);
     glm::mat4 view = glm::mat4(1.0f);
     glm::vec3 position = glm::vec3(0.0f, 0.0f, -0.3f);
-    Camera gameCamera = Camera(view, position);
+    Camera gameCamera(view, position);
     std::vector<RenderData> data;
+    // Entity playerEntity(std::string("player"));
 
     while (Engine::getState() == Engine::RUNNING)
     {
@@ -159,7 +99,6 @@ int main(int c, char **argv)
         Engine::processInput();
         data.emplace_back(playerData, p1.model, &gameCamera);
         p1.handleInput();
-        p1.calcTransform();
         p1.Update();
         // std::cout << glm::to_string(p1.model) << std::endl;
         // Renderer::ClearBuffer(glm::vec3(0.0, 0.0, 0.0));
@@ -174,6 +113,61 @@ int main(int c, char **argv)
     return EXIT_SUCCESS;
 }
 
+
+// std::vector<float> vertices{-0.5f, -0.5f, 0.0f,
+    //                             -0.5f, 0.5f, 0.0f,
+    //                             0.5f, -0.5f, 0.0f,
+    //                             0.5f, 0.5f, 0.0f,
+    //                             -0.5f, 0.5f, 0.0f,
+    //                             0.5f, -0.5f, 0.0f};
+
+    // std::vector<float> cube{-0.5f, -0.5f, -0.5,
+    //                         0.5f, -0.5f, -0.5f,
+    //                         0.5f, 0.5f, -0.5f,
+    //                         0.5f, 0.5f, -0.5f,
+    //                         -0.5f, 0.5f, -0.5f,
+    //                         -0.5f, -0.5f, -0.5f,
+
+    //                         -0.5f, -0.5f, 0.5f,
+    //                         0.5f, -0.5f, 0.5f,
+    //                         0.5f, 0.5f, 0.5f,
+    //                         0.5f, 0.5f, 0.5f,
+    //                         -0.5f, 0.5f, 0.5f,
+    //                         -0.5f, -0.5f, 0.5f,
+
+    //                         -0.5f, 0.5f, 0.5f,
+    //                         -0.5f, 0.5f, -0.5f,
+    //                         -0.5f, -0.5f, -0.5,
+    //                         -0.5f, -0.5f, -0.5,
+    //                         -0.5f, -0.5f, 0.5f,
+    //                         -0.5f, 0.5f, 0.5f,
+
+    //                         0.5f, 0.5f, 0.5f,
+    //                         0.5f, 0.5f, -0.5f,
+    //                         0.5f, -0.5f, -0.5f,
+    //                         0.5f, -0.5f, -0.5f,
+    //                         0.5f, -0.5f, 0.5f,
+    //                         0.5f, 0.5f, 0.5f,
+
+    //                         -0.5f, -0.5f, -0.5,
+    //                         0.5f, -0.5f, -0.5f,
+    //                         0.5f, -0.5f, 0.5f,
+    //                         0.5f, -0.5f, 0.5f,
+    //                         -0.5f, -0.5f, 0.5f,
+    //                         -0.5f, -0.5f, -0.5,
+
+    //                         -0.5f, 0.5f, -0.5f,
+    //                         0.5f, 0.5f, -0.5f,
+    //                         0.5f, 0.5f, 0.5f,
+    //                         0.5f, 0.5f, 0.5f,
+    //                         -0.5f, 0.5f, 0.5f,
+    //                         -0.5f, 0.5f, -0.5f};
+
+    // std::vector<float> vertices2{-0.5f, -0.5f,
+    //                              -0.5f, 0.5f,
+    //                              0.5f, -0.5f};
+
+    // std::vector<Vertex> verts{Vertex(-0.5f, -0.5f, 0.0f), Vertex(-0.5f, 0.5f, 0.0f), Vertex(0.5f, -0.5f, 0.0f)};
 // shader.Use();
 //  bind vao
 //  glBindVertexArray(vao);

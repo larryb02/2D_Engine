@@ -1,8 +1,27 @@
+Planned:
 - Refactor makefile so it generates object files
 - Make _window a smart pointer
     - convert all pointers to smart pointers eventually
 - Write test cases for:
     - Texture Class
+- potentially make a header with common includes
+- Considering separating windowing into its own class
+- Entity class
+    - don't necessarily want to name it entity, but probably makes the most sense
+    - literally just an object in the world space that needs to be rendered
+    - Will be a good idea to create a manager class for these as well
+        - 
+- Text Rendering
+- Sprite Rendering
+- Scene class
+- Scene Manager
+
+Done:
+- Proper Input System
+    - Create methods that provide interface to keyboardstate, gamepad state, and mouse state
+- Camera class 
+
+In Progress:
 - Figure out render schematics
     - Render Pipeline:
         - Scene > Objects in scene > get necessary info from objects, create render data > render
@@ -19,12 +38,13 @@
         - Translating models to world/clip space
             - store uniforms in Shader, or store them in render data
                 - shader makes more sense, add function to iteratively set uniforms
-    - Textures, Sprites, etc...
-- Proper Input System
-    - Create methods that provide interface to keyboardstate, gamepad state, and mouse state
-- potentially make a header with common includes
-- Considering separating windowing into its own class
-- Camera class 
+
+
+
+
+    
+
+
 
 
 
