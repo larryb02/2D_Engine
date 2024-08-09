@@ -6,6 +6,7 @@
 #include "../Input/Input.hpp"
 #include "../Renderer/Renderer.hpp"
 #include "../Scene/Entity.hpp"
+#include "../Scene/Scene.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
@@ -14,6 +15,7 @@
 
 /*
 Tasks:
+CONVERT TO SCENE
 1. Create movable "player"
 2. Create a background... tentative
 3. Create a level
@@ -82,12 +84,13 @@ int main(int c, char **argv)
                                    Vertex(0.25f, -0.25f, 0.0f)};
 
     Player p1(playerData);
-    glm::mat4 view = glm::mat4(1.0f);
-    glm::vec3 position = glm::vec3(0.0f, 0.0f, -0.3f);
-    Camera gameCamera(view, position);
+//    glm::mat4 view = glm::mat4(1.0f);
+//    glm::vec3 position = glm::vec3(0.0f, 0.0f, -0.3f);
+//    Camera gameCamera(view, position);
     std::vector<RenderData> data;
     // Entity playerEntity(std::string("player"));
-
+    Scene exampleScene(800, 600);
+    //exampleScene.addItem(&playerEntity)
     while (Engine::getState() == Engine::RUNNING)
     {
         /*
@@ -97,12 +100,14 @@ int main(int c, char **argv)
         - Clean up/Update/Prep for next frame
         */
         Engine::processInput();
-        data.emplace_back(playerData, p1.model, &gameCamera);
+        data.emplace_back(p1.m_vertexData, p1.model, &exampleScene.getCamera());
         p1.handleInput();
         p1.Update();
-        // std::cout << glm::to_string(p1.model) << std::endl;
+        
+	// std::cout << glm::to_string(p1.model) << std::endl;
         // Renderer::ClearBuffer(glm::vec3(0.0, 0.0, 0.0));
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         Renderer::Render(data, shader);
         Engine::Update();

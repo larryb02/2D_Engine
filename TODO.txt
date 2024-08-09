@@ -5,21 +5,17 @@ Planned:
 - Write test cases for:
     - Texture Class
 - potentially make a header with common includes
-- Considering separating windowing into its own class
-- Entity class
-    - don't necessarily want to name it entity, but probably makes the most sense
-    - literally just an object in the world space that needs to be rendered
-    - Will be a good idea to create a manager class for these as well
-        - 
+- Considering separating windowing into its own class 
 - Text Rendering
 - Sprite Rendering
-- Scene class
 - Scene Manager
-
+- Find/handle potential memory leaks
+	- optimizing......!
 Done:
 - Proper Input System
     - Create methods that provide interface to keyboardstate, gamepad state, and mouse state
-- Camera class 
+- Camera class
+	- add methods, and potentially new views later
 
 In Progress:
 - Figure out render schematics
@@ -38,11 +34,20 @@ In Progress:
         - Translating models to world/clip space
             - store uniforms in Shader, or store them in render data
                 - shader makes more sense, add function to iteratively set uniforms
+- Entity class
+    - don't necessarily want to name it entity, but probably makes the most sense
+    - literally just an object in the world space that needs to be rendered
+    - Will be a good idea to create a manager class for these as well
+ - Scene class
+ 	- make changes to Camera class:: camera should not take references to view and position values, add methods in camera class to update those values as well...
+	- we want references of Entities not pointers, don't plan on modifying entities from scene directly...
 
-
-
-
-    
+- Scene -> Renderer
+	- A scene will always have a Camera and Screen Dimensions
+	- restructure code to conform to this.
+	- should RenderData ever modify values that are passed to it?
+		- For now, no.
+		- RenderData's job is to prepare the data for the render pass
 
 
 

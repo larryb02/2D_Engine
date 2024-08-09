@@ -26,8 +26,10 @@ public:
     // constructors
     RenderData(std::vector<float> &vertices, glm::mat4 &model, Camera *camera); 
     RenderData(std::vector<Vertex> &vertices, glm::mat4 &model, Camera *camera);
-    // RenderData(std::vector<float> &vertices, glm::mat4 &model); 
-    // RenderData(std::vector<Vertex> &vertices, glm::mat4 &model);
+ 
+//     RenderData(std::vector<float> &vertices, glm::mat4 &model); 
+//     RenderData(std::vector<Vertex> &vertices, glm::mat4 &model);
+    
     // accessors
     unsigned int getVAO() const;
     unsigned int getVertexCount() const;

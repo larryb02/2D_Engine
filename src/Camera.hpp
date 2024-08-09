@@ -11,7 +11,7 @@ Required Camera Features:
 class Camera
 {
     public:
-        Camera(glm::mat4 &view, glm::vec3 &initPosition);
+        Camera(glm::mat4 view, glm::vec3 initPosition);
 	const glm::mat4 &getView() const;
         const glm::vec3 &getCameraPosition() const;
 

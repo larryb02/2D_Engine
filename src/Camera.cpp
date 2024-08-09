@@ -3,7 +3,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-Camera::Camera(glm::mat4 &view, glm::vec3 &initPosition)
+Camera::Camera(glm::mat4 view, glm::vec3 initPosition)
 {
     m_view = view;
     m_cameraPos = glm::vec3(0.0f);
