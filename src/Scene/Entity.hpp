@@ -7,10 +7,9 @@ class Entity
 {
     public:
         Entity(std::string name);
-        const std::string &getName() const;
-	const glm::mat4 &getModel() const;
-	void setPosition();
-	const glm::mat4 &getModel() const;
+        const std::string &getEntityName() const;
+	    void setPosition();
+	    const glm::mat4 &getModelMatrix() const;
     private:
         void constructRenderData(); //hmm...
         std::string m_entityName; 

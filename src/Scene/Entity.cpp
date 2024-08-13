@@ -7,12 +7,12 @@ Entity::Entity(std::string name)
     std::cout << "Entity: " << m_entityName << "Has Been Created" << std::endl;
 }
 
-const std::string &Entity::getName() const
+const std::string &Entity::getEntityName() const
 {
     return m_entityName;
 }
 
-const glm::mat4 &Entity::getModel() const
+const glm::mat4 &Entity::getModelMatrix() const
 {
 	return m_model;
 }

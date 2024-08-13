@@ -89,7 +89,7 @@ int main(int c, char **argv)
 //    Camera gameCamera(view, position);
     std::vector<RenderData> data;
     // Entity playerEntity(std::string("player"));
-    Scene exampleScene(800, 600);
+    Scene exampleScene("Sandbox", -2.0f, +2.0f, -1.5f, +1.5f);
     //exampleScene.addItem(&playerEntity)
     while (Engine::getState() == Engine::RUNNING)
     {
@@ -107,9 +107,10 @@ int main(int c, char **argv)
 	// std::cout << glm::to_string(p1.model) << std::endl;
         // Renderer::ClearBuffer(glm::vec3(0.0, 0.0, 0.0));
         
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        Renderer::Render(data, shader);
+        
+        Renderer::Render(data, shader, exampleScene);
         Engine::Update();
         data.clear();
     }

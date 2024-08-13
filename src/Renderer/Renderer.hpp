@@ -6,6 +6,7 @@
 #include <vector>
 // #include "Texture.hpp"
 #include "./Types/RenderTypes.hpp"
+#include "../Scene/Scene.hpp"
 // #include <glad/glad.h>
 
 /* things i want renderer to be able to do
@@ -28,7 +29,7 @@ namespace Renderer
 {
     enum RenderMode { DEBUG };
     
-    void Render(std::vector<RenderData> &rd, Shader &shader);
+    void Render(std::vector<RenderData> &rd, Shader &shader, Scene &scene);
     void ClearBuffer(glm::vec3 color);
     GLenum CheckError_(const char *file, int line);
     
