@@ -47,7 +47,7 @@ GLenum Renderer::CheckError_(const char *file, int line)
     return errorCode;
 }
 
-void Renderer::Render(std::vector<RenderData> &rd, Shader &shader, Scene &scene)
+void Renderer::Render(Shader &shader, Scene *scene)
 {   
     //need a reference to current loaded scene, get information from there
     //Scene ref, current Scene.createRenderData(), boom
@@ -64,18 +64,17 @@ void Renderer::Render(std::vector<RenderData> &rd, Shader &shader, Scene &scene)
     //view = glm::mat4(1.0f);
     //view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
     // view = glm::lookAt( glm::vec3( 0.f, 0.f, 2.0f ),glm::vec3( 0.0f, 0.0f, 0.0f ),glm::vec3( 0.0f, 1.0f, 0.0f ) );
+    std::vector<RenderData> rd = scene->createRenderData();
     
     
-    //^ can just combine these 3 and pass that to a shader every frame
     for (int i = 0; i < rd.size(); i++)
     {
         // model = glm::mat4(1.0f);
         // model = glm::scale(model, glm::vec3(100.0f, 100.0f, 0.0f));
         // model = glm::translate(model, glm::vec3(0.3f, -0.3f, 0.0f));
         shader.Use();
-        shader.setMat4("projection", scene.getProjectionMatrix());
-        shader.setMat4("view", rd[i].getCamera()->getView());
-        // shader.setMat4("view", view);
+        shader.setMat4("projection", scene->getProjectionMatrix());
+        shader.setMat4("view", scene->getCamera().getView());
         shader.setMat4("model", rd[i].getModel());
         // bind vao
         glBindVertexArray(rd[i].getVAO());

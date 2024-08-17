@@ -24,8 +24,8 @@ class RenderData
 {
 public:
     // constructors
-    RenderData(std::vector<float> &vertices, glm::mat4 &model, Camera *camera); 
-    RenderData(std::vector<Vertex> &vertices, glm::mat4 &model, Camera *camera);
+    RenderData(std::vector<float> &vertices, glm::mat4 &model); 
+    RenderData(const std::vector<Vertex> &vertices, const glm::mat4 &model);
  
 //     RenderData(std::vector<float> &vertices, glm::mat4 &model); 
 //     RenderData(std::vector<Vertex> &vertices, glm::mat4 &model);
@@ -35,12 +35,12 @@ public:
     unsigned int getVertexCount() const;
     const glm::mat4 &getModel() const; //nor does this
     glm::mat4 getProjection() const; //doesn't belong here
-    const Camera *getCamera() const;
+    /*const Camera *getCamera() const;*/
 
 private:
     unsigned int m_vao, m_vbo, m_vertexCount;
     glm::mat4 m_model;
-    Camera *m_cameraData;
+    /*Camera *m_cameraData;*/
     
 };
 

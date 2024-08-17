@@ -1,4 +1,10 @@
 #include "Scene.hpp"
+#include "SceneManager.hpp"
+
+
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/string_cast.hpp>
 
 Scene::Scene(const char *name, float leftWidth, float rightWidth, float bottomHeight, float topHeight)
 	: 	
@@ -7,22 +13,22 @@ Scene::Scene(const char *name, float leftWidth, float rightWidth, float bottomHe
 {
 	m_sceneWidth = leftWidth;
 	m_sceneHeight = topHeight;
-	//m_sceneProjection = glm::ortho(0.0f, static_cast<float>(width), 0.0f, static_cast<float>(height), 0.1f, 100.0f);
 	m_sceneProjection = glm::ortho(leftWidth, rightWidth, bottomHeight, topHeight, 0.1f, 100.0f);
 	m_sceneItems = {};
+    SceneManager::addScene(*this);
 }
 
-void Scene::addItem(Entity *item)
+void Scene::addEntity(Entity *item)
 {
 	m_sceneItems.insert({item->getEntityName(), item});
 }
 
-void Scene::removeItem(Entity *item)
+void Scene::removeEntity(Entity *item)
 {
 	m_sceneItems.erase(item->getEntityName());	
 }
 
-const Entity *Scene::getItem(const std::string key) const
+const Entity *Scene::getEntity(const std::string key) const
 {
 	//add logic to check if key exists
 	return m_sceneItems.find(key) != m_sceneItems.end() ? m_sceneItems.at(key) : nullptr;
@@ -34,7 +40,7 @@ const Entity *Scene::getItem(const std::string key) const
 //}
 //
 
-Camera &Scene::getCamera() 
+Camera &Scene::getCamera()
 {
 	return m_sceneCamera;
 }
@@ -49,3 +55,21 @@ const glm::mat4 &Scene::getProjectionMatrix() const
 {
     return m_sceneProjection;
 }
+
+const std::string &Scene::getSceneName() const
+{
+    return m_sceneName;
+}
+
+std::vector<RenderData> Scene::createRenderData()
+{
+    std::vector<RenderData> data{};
+    for (auto entity: m_sceneItems)
+    {
+        std::cout << entity.second->getEntityName() << " " << glm::to_string(entity.second->getModelMatrix()) << std::endl;
+        data.emplace_back(entity.second->getVertices(), entity.second->getModelMatrix());
+    }
+
+    return data;
+}
+

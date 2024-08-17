@@ -1,9 +1,17 @@
 #ifndef SCENE_MANAGER_HPP
 #define SCENE_MANAGER_HPP
 
-//namespace SceneManager
-//{
-//    std::unordered_map<std::string, Scene*> m_SceneMap;
-//}
+#include "Scene.hpp"
+#include <string>
+
+namespace SceneManager
+{
+    /*std::unordered_map<std::string sceneName, Scene*> m_SceneMap;*/
+    void addScene(Scene &scene);
+    void loadScene(std::string sceneName);
+    Scene *getCurrentScene();
+    void getAllScenes();
+
+}
 
 #endif

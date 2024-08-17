@@ -11,31 +11,13 @@ Planned:
 - Scene Manager
 - Find/handle potential memory leaks
 	- optimizing......!
-Done:
-- Proper Input System
-    - Create methods that provide interface to keyboardstate, gamepad state, and mouse state
-- Camera class
-	- add methods, and potentially new views later
+- Add more functionality to Vertex Structure
+
+Current Task:
+- Write Scene > Scene Object > Render Data pipeline
 
 In Progress:
-- Figure out render schematics
-    - Render Pipeline:
-        - Scene > Objects in scene > get necessary info from objects, create render data > render
-        - All user has to deal with is importing data
-    - Create Render Data types
-        - This will probably get overhauled later
-        - Currently: Render Data is an object that contains necessary data to perform draw/binding calls
-            - Need to create solution to data layout problem, (This is where a Vertex class/struct would be useful)
-        - Need to handle indices/element buffers
-    - determine where shaders should be passed during render calls
-    - Rewrite Vertex Struct and get it to work
-        - Works, add more properties as i go
-    - Lets work on world space right now?
-        - Translating models to world/clip space
-            - store uniforms in Shader, or store them in render data
-                - shader makes more sense, add function to iteratively set uniforms
-- Entity class
-    - don't necessarily want to name it entity, but probably makes the most sense
+- Entity class (will probably rename to SceneObject)
     - literally just an object in the world space that needs to be rendered
     - Will be a good idea to create a manager class for these as well
  - Scene class
@@ -49,6 +31,10 @@ In Progress:
 		- For now, no.
 		- RenderData's job is to prepare the data for the render pass
 
+- Proper Input System
+    - Create methods that provide interface to keyboardstate, gamepad state, and mouse state
+- Camera class
+	- add methods, and potentially new views later
 
 
 

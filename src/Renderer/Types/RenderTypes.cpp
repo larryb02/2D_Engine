@@ -7,10 +7,10 @@ Vertex::Vertex(float x, float y, float z)
 }
 
 
-RenderData::RenderData(std::vector<float> &vertices, glm::mat4 &model, Camera *camera) //basic object
+RenderData::RenderData(std::vector<float> &vertices, glm::mat4 &model) //basic object
 {
     m_model = model;
-    m_cameraData = camera;
+    /*m_cameraData = camera;*/
     m_vertexCount = vertices.size()/3;
 
     glGenVertexArrays(1, &m_vao);
@@ -24,10 +24,10 @@ RenderData::RenderData(std::vector<float> &vertices, glm::mat4 &model, Camera *c
     glBindVertexArray(0);
 }
 
-RenderData::RenderData(std::vector<Vertex> &vertices, glm::mat4 &model, Camera *camera) //basic object
+RenderData::RenderData(const std::vector<Vertex> &vertices, const glm::mat4 &model) //basic object
 {
     m_model = model;
-    m_cameraData = camera;
+    /*m_cameraData = camera;*/
     m_vertexCount = vertices.size();
 
     glGenVertexArrays(1, &m_vao);
@@ -58,10 +58,10 @@ const glm::mat4 &RenderData::getModel() const
     return m_model;
 }
 
-const Camera *RenderData::getCamera() const
-{
-    return m_cameraData;
-}
+/*const Camera *RenderData::getCamera() const*/
+/*{*/
+/*    return m_cameraData;*/
+/*}*/
 
 
 

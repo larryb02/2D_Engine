@@ -1,19 +1,12 @@
 # 2D_Engine
+Framework that eases the process of 2D Game Development
 
-### v0.0
+# v0.0
 Will update with images and features
 
-### Challenges
-- Vertex Data:
-    - The challenge is handling the layout
-        - I could assume that there is one format for all data i.e. (x, y, color, tex cords), but this isnt realistic
-            - so how do i handle this and how much can i abstract from the user
-                - Create my own data structure and set default values?
-                    - how do i handle stride, offset, etc...
-    - Solution:
-- Render Architecture:
+### Features
 
-### Directory Structure
+### Images
 
 ### How To Run
 

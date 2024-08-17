@@ -7,6 +7,8 @@
 #include "../Renderer/Renderer.hpp"
 #include "../Scene/Entity.hpp"
 #include "../Scene/Scene.hpp"
+#include "../Scene/SceneManager.hpp"
+
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
@@ -23,51 +25,57 @@ CONVERT TO SCENE
 
 typedef struct Player
 {
-    Player(std::vector<Vertex> &vertexData)
+    Player(Entity *entity)
     {
+        m_playerEntity = entity;
         pos = glm::vec3(0.0f); // start at origin.
         model = glm::mat4(1.0f);
-        m_vertexData = vertexData; //real world would just pass 'renderData'
-        velocity = glm::vec3(0.0f);
+        /*m_vertexData = m_playerEntity.getVertices(); //real world would just pass 'renderData'*/
+        velX = velY = 0.0f;
     };
     void handleInput()
     {
         if (Input::keyPressed(SDL_SCANCODE_W))
         {
             // std::cout << "w key pressed" << std::endl;
-            velocity.y += 0.01f;
+            velY += 0.01f;
             // p1.pos.y += 0.01f;
         }
         if (Input::keyPressed(SDL_SCANCODE_A))
         {
             // std::cout << "a key pressed" << std::endl;
-            velocity.x -= 0.01f;
+            velX -= 0.01f;
             // p1.pos.x -= 0.01f;
         }
         if (Input::keyPressed(SDL_SCANCODE_S))
         {
             // std::cout << "s key pressed" << std::endl;
-            velocity.y -= 0.01f;
+            velY -= 0.01f;
             // p1.pos.y -= 0.01f;
         }
         if (Input::keyPressed(SDL_SCANCODE_D))
         {
             // std::cout << "d key pressed" << std::endl;
-            velocity.x += 0.01f;
+            velX += 0.01f;
             // p1.pos.x += 0.01f;
         }
     };
     void Update()
     {
-        pos += velocity;
-        this->model = glm::translate(model, velocity);
-        velocity = glm::vec3(0.0f);
+        pos.x += velX;
+        pos.y += velY;
+        /*this->model = glm::translate(model, velocity);*/
+        m_playerEntity->updatePosition(velX, velY);
+        /*std::cout << glm::to_string(m_playerEntity.getModelMatrix()) << std::endl;*/
+        velX = velY = 0.0f;
         std::cout << "x: " << pos.x << " | " << "y: " << pos.y << std::endl;
     };
-    std::vector<Vertex> m_vertexData;
+    /*std::vector<Vertex> m_vertexData;*/
     glm::vec3 pos;
     glm::mat4 model;
-    glm::vec3 velocity;
+    float velX;
+    float velY;
+    Entity *m_playerEntity;
 } Player;
 
 int main(int c, char **argv)
@@ -76,43 +84,66 @@ int main(int c, char **argv)
     Engine::Init(0, 0, "");
     Shader shader("shaders/BasicVertexShader.glsl", "shaders/BasicFragmentShader.glsl");
     // 
-    std::vector<Vertex> playerData{Vertex(-0.25f, -0.25f, 0.0f),
-                                   Vertex(-0.25f, 0.25f, 0.0f),
-                                   Vertex(0.25f, -0.25f, 0.0f),
-                                   Vertex(0.25f, 0.25f, 0.0f),
-                                   Vertex(-0.25f, 0.25f, 0.0f),
-                                   Vertex(0.25f, -0.25f, 0.0f)};
-
-    Player p1(playerData);
-//    glm::mat4 view = glm::mat4(1.0f);
-//    glm::vec3 position = glm::vec3(0.0f, 0.0f, -0.3f);
-//    Camera gameCamera(view, position);
-    std::vector<RenderData> data;
+    /*std::vector<Vertex> playerData{Vertex(-0.25f, -0.25f, 0.0f),*/
+    /*                               Vertex(-0.25f, 0.25f, 0.0f),*/
+    /*                               Vertex(0.25f, -0.25f, 0.0f),*/
+    /*                               Vertex(0.25f, 0.25f, 0.0f),*/
+    /*                               Vertex(-0.25f, 0.25f, 0.0f),*/
+    /*                               Vertex(0.25f, -0.25f, 0.0f)};*/
+    /**/
+    /*Player p1(playerData);*/
+    //    glm::mat4 view = glm::mat4(1.0f);
+    //    glm::vec3 position = glm::vec3(0.0f, 0.0f, -0.3f);
+    //    Camera gameCamera(view, position);
     // Entity playerEntity(std::string("player"));
     Scene exampleScene("Sandbox", -2.0f, +2.0f, -1.5f, +1.5f);
-    //exampleScene.addItem(&playerEntity)
+    SceneManager::loadScene("Sandbox");
+    // add background to scene
+    // add player to scene
+    // add enemy to scene
+    Entity backgroundEntity("background", {Vertex(1.0f, 1.0f, 0.0f),
+            Vertex(1.0f, 1.0f, 0.0f),
+            Vertex(1.0f, 1.0f, 0.0f),
+            Vertex(1.0f, 1.0f, 0.0f),
+            Vertex(1.0f, 1.0f, 0.0f),
+            Vertex(1.0f, 1.0f, 0.0f)});
+
+    Entity playerEntity("player", {Vertex(-0.25f, -0.25f, 0.0f),
+            Vertex(-0.25f, 0.25f, 0.0f),
+            Vertex(0.25f, -0.25f, 0.0f),
+            Vertex(0.25f, 0.25f, 0.0f),
+            Vertex(-0.25f, 0.25f, 0.0f),
+            Vertex(0.25f, -0.25f, 0.0f)});
+
+
+    Player p1(&playerEntity);
+
+    //setup Scene to Renderer pipeline
+
+
+    exampleScene.addEntity(&playerEntity);
+    /*exampleScene.addEntity(&backgroundEntity);*/
     while (Engine::getState() == Engine::RUNNING)
     {
-        /*
-        - Important core engine things
-        - Game Logic
-        - Render
-        - Clean up/Update/Prep for next frame
-        */
+
+        //- Important core engine things
+        //- Game Logic
+        //- Render
+        //- Clean up/Update/Prep for next frame
+
         Engine::processInput();
-        data.emplace_back(p1.m_vertexData, p1.model, &exampleScene.getCamera());
         p1.handleInput();
         p1.Update();
-        
-	// std::cout << glm::to_string(p1.model) << std::endl;
+
+        // std::cout << glm::to_string(p1.model) << std::endl;
         // Renderer::ClearBuffer(glm::vec3(0.0, 0.0, 0.0));
-        
-	    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        
-        Renderer::Render(data, shader, exampleScene);
+
+        Renderer::Render(shader, SceneManager::getCurrentScene());
         Engine::Update();
-        data.clear();
+        
     }
 
     Engine::Quit();
@@ -121,59 +152,59 @@ int main(int c, char **argv)
 
 
 // std::vector<float> vertices{-0.5f, -0.5f, 0.0f,
-    //                             -0.5f, 0.5f, 0.0f,
-    //                             0.5f, -0.5f, 0.0f,
-    //                             0.5f, 0.5f, 0.0f,
-    //                             -0.5f, 0.5f, 0.0f,
-    //                             0.5f, -0.5f, 0.0f};
+//                             -0.5f, 0.5f, 0.0f,
+//                             0.5f, -0.5f, 0.0f,
+//                             0.5f, 0.5f, 0.0f,
+//                             -0.5f, 0.5f, 0.0f,
+//                             0.5f, -0.5f, 0.0f};
 
-    // std::vector<float> cube{-0.5f, -0.5f, -0.5,
-    //                         0.5f, -0.5f, -0.5f,
-    //                         0.5f, 0.5f, -0.5f,
-    //                         0.5f, 0.5f, -0.5f,
-    //                         -0.5f, 0.5f, -0.5f,
-    //                         -0.5f, -0.5f, -0.5f,
+// std::vector<float> cube{-0.5f, -0.5f, -0.5,
+//                         0.5f, -0.5f, -0.5f,
+//                         0.5f, 0.5f, -0.5f,
+//                         0.5f, 0.5f, -0.5f,
+//                         -0.5f, 0.5f, -0.5f,
+//                         -0.5f, -0.5f, -0.5f,
 
-    //                         -0.5f, -0.5f, 0.5f,
-    //                         0.5f, -0.5f, 0.5f,
-    //                         0.5f, 0.5f, 0.5f,
-    //                         0.5f, 0.5f, 0.5f,
-    //                         -0.5f, 0.5f, 0.5f,
-    //                         -0.5f, -0.5f, 0.5f,
+//                         -0.5f, -0.5f, 0.5f,
+//                         0.5f, -0.5f, 0.5f,
+//                         0.5f, 0.5f, 0.5f,
+//                         0.5f, 0.5f, 0.5f,
+//                         -0.5f, 0.5f, 0.5f,
+//                         -0.5f, -0.5f, 0.5f,
 
-    //                         -0.5f, 0.5f, 0.5f,
-    //                         -0.5f, 0.5f, -0.5f,
-    //                         -0.5f, -0.5f, -0.5,
-    //                         -0.5f, -0.5f, -0.5,
-    //                         -0.5f, -0.5f, 0.5f,
-    //                         -0.5f, 0.5f, 0.5f,
+//                         -0.5f, 0.5f, 0.5f,
+//                         -0.5f, 0.5f, -0.5f,
+//                         -0.5f, -0.5f, -0.5,
+//                         -0.5f, -0.5f, -0.5,
+//                         -0.5f, -0.5f, 0.5f,
+//                         -0.5f, 0.5f, 0.5f,
 
-    //                         0.5f, 0.5f, 0.5f,
-    //                         0.5f, 0.5f, -0.5f,
-    //                         0.5f, -0.5f, -0.5f,
-    //                         0.5f, -0.5f, -0.5f,
-    //                         0.5f, -0.5f, 0.5f,
-    //                         0.5f, 0.5f, 0.5f,
+//                         0.5f, 0.5f, 0.5f,
+//                         0.5f, 0.5f, -0.5f,
+//                         0.5f, -0.5f, -0.5f,
+//                         0.5f, -0.5f, -0.5f,
+//                         0.5f, -0.5f, 0.5f,
+//                         0.5f, 0.5f, 0.5f,
 
-    //                         -0.5f, -0.5f, -0.5,
-    //                         0.5f, -0.5f, -0.5f,
-    //                         0.5f, -0.5f, 0.5f,
-    //                         0.5f, -0.5f, 0.5f,
-    //                         -0.5f, -0.5f, 0.5f,
-    //                         -0.5f, -0.5f, -0.5,
+//                         -0.5f, -0.5f, -0.5,
+//                         0.5f, -0.5f, -0.5f,
+//                         0.5f, -0.5f, 0.5f,
+//                         0.5f, -0.5f, 0.5f,
+//                         -0.5f, -0.5f, 0.5f,
+//                         -0.5f, -0.5f, -0.5,
 
-    //                         -0.5f, 0.5f, -0.5f,
-    //                         0.5f, 0.5f, -0.5f,
-    //                         0.5f, 0.5f, 0.5f,
-    //                         0.5f, 0.5f, 0.5f,
-    //                         -0.5f, 0.5f, 0.5f,
-    //                         -0.5f, 0.5f, -0.5f};
+//                         -0.5f, 0.5f, -0.5f,
+//                         0.5f, 0.5f, -0.5f,
+//                         0.5f, 0.5f, 0.5f,
+//                         0.5f, 0.5f, 0.5f,
+//                         -0.5f, 0.5f, 0.5f,
+//                         -0.5f, 0.5f, -0.5f};
 
-    // std::vector<float> vertices2{-0.5f, -0.5f,
-    //                              -0.5f, 0.5f,
-    //                              0.5f, -0.5f};
+// std::vector<float> vertices2{-0.5f, -0.5f,
+//                              -0.5f, 0.5f,
+//                              0.5f, -0.5f};
 
-    // std::vector<Vertex> verts{Vertex(-0.5f, -0.5f, 0.0f), Vertex(-0.5f, 0.5f, 0.0f), Vertex(0.5f, -0.5f, 0.0f)};
+// std::vector<Vertex> verts{Vertex(-0.5f, -0.5f, 0.0f), Vertex(-0.5f, 0.5f, 0.0f), Vertex(0.5f, -0.5f, 0.0f)};
 // shader.Use();
 //  bind vao
 //  glBindVertexArray(vao);
