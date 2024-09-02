@@ -23,7 +23,7 @@ void Texture::Load(std::string filePath)
     //check file extension to determine whether to flip image
     std::cout << "Loading " << getFileName().c_str() << std::endl;
     m_data = stbi_load(getFileName().c_str(), &m_width, &m_height, &m_numChannels, 0);
-    if(getData() == nullptr) //test this out
+    if(m_data == nullptr) //test this out
     {
         std::cout << "Failed to load texture" << std::endl;
     }
@@ -32,7 +32,7 @@ void Texture::Load(std::string filePath)
 void Texture::CreateTexture()
 {
     //check if data member has 'data' 
-    if(getData() == nullptr)
+    if(m_data == nullptr)
     {
         std::cout << "Texture Data is Null" << std::endl;
         return;
@@ -44,7 +44,7 @@ void Texture::CreateTexture()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, getWidth(), getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, getData());
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, m_data);
     glGenerateMipmap(GL_TEXTURE_2D);
 }
 

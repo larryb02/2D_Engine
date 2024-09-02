@@ -1,5 +1,7 @@
 #include "Scene.hpp"
 #include "SceneManager.hpp"
+#include <memory>
+/*#include <memory>*/
 
 
 #define GLM_ENABLE_EXPERIMENTAL
@@ -18,17 +20,22 @@ Scene::Scene(const char *name, float leftWidth, float rightWidth, float bottomHe
     SceneManager::addScene(*this);
 }
 
-void Scene::addEntity(Entity *item)
+void Scene::addEntity(Entity* item)
 {
 	m_sceneItems.insert({item->getEntityName(), item});
 }
 
-void Scene::removeEntity(Entity *item)
+void Scene::removeEntity(std::string entityName) //change arg to a key
 {
-	m_sceneItems.erase(item->getEntityName());	
+    if (m_sceneItems.find(entityName) == m_sceneItems.end())
+    {
+            std::cout << entityName << " does not exist" << std::endl;
+            return;
+    }
+    m_sceneItems.erase(entityName);	
 }
 
-const Entity *Scene::getEntity(const std::string key) const
+const Entity* Scene::getEntity(const std::string key) const
 {
 	//add logic to check if key exists
 	return m_sceneItems.find(key) != m_sceneItems.end() ? m_sceneItems.at(key) : nullptr;
@@ -66,7 +73,7 @@ std::vector<RenderData> Scene::createRenderData()
     std::vector<RenderData> data{};
     for (auto entity: m_sceneItems)
     {
-        std::cout << entity.second->getEntityName() << " " << glm::to_string(entity.second->getModelMatrix()) << std::endl;
+        /*std::cout << entity.second->getEntityName() << " " << glm::to_string(entity.second->getModelMatrix()) << std::endl;*/
         data.emplace_back(entity.second->getVertices(), entity.second->getModelMatrix());
     }
 

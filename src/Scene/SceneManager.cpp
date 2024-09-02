@@ -1,10 +1,11 @@
 #include "SceneManager.hpp"
+/*#include <memory>*/
 
 
 namespace SceneManager
 {
     std::unordered_map<std::string, Scene&> m_sceneMap;
-    Scene *m_currentScene = nullptr;
+    Scene* m_currentScene(nullptr);
 
     void addScene(Scene &scene)
     {
@@ -22,7 +23,7 @@ namespace SceneManager
         m_currentScene = &m_sceneMap.at(sceneName);
     }
 
-    Scene *getCurrentScene()
+    Scene* getCurrentScene()
     {
         /*std::cout << "Current Scene: " << m_currentScene->getSceneName() << std::endl;*/
         return m_currentScene;

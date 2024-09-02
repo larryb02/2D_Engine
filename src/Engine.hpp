@@ -2,7 +2,7 @@
 #define ENGINE_HPP
 
 #include <SDL2/SDL.h>
-#include <iostream>
+#include <string>
 #include <glad/glad.h>
 
 namespace Engine
@@ -18,15 +18,13 @@ namespace Engine
     void Update();
     void Quit();
     void Run();
-    // void changeViewport(const unsigned int width, const unsigned int height); unnecessary 
     State getState();
-    WindowMode getWindowMode();
     unsigned int getScreenWidth();
     unsigned int getScreenHeight();
-    SDL_Window *getWindowPointer(); //probly change to window pointer
-    SDL_Event *getEventPointer(); //probly change to window pointer
-    SDL_Keycode getKeyDown();
-    SDL_Keycode getKeyUp();
+    /*SDL_Window *getWindowPointer(); //probly change to window pointer*/
+    /*SDL_Event *getEventPointer(); //probly change to window pointer*/
+    /*SDL_Keycode getKeyDown();*/
+    /*SDL_Keycode getKeyUp();*/
     
 
 }

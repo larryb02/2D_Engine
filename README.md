@@ -5,8 +5,21 @@ Framework that eases the process of 2D Game Development
 Will update with images and features
 
 ### Features
+- Scenes
+    - Entity Management, Scene Management
+- OpenGL Rendering
+- Text Rendering (TODO)
+- Sprite Rendering (TODO)
 
 ### Images
+
+### Future
+- Scene Layers
+- Editor
+- Optimize Render Pipeline
+    - Batch Rendering Potentially?
+- More Graphics APIs
+    - Vulkan, Metal
 
 ### How To Run
 

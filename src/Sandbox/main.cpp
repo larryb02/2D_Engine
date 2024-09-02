@@ -2,12 +2,14 @@
 
 #include <math.h>
 #include <filesystem>
+/*#include <memory>*/
 #include "../Engine.hpp"
-#include "../Input/Input.hpp"
 #include "../Renderer/Renderer.hpp"
 #include "../Scene/Entity.hpp"
 #include "../Scene/Scene.hpp"
 #include "../Scene/SceneManager.hpp"
+#include "Game.hpp"
+#include "Types.hpp"
 
 
 #define GLM_ENABLE_EXPERIMENTAL
@@ -23,109 +25,52 @@ CONVERT TO SCENE
 3. Create a level
 */
 
-typedef struct Player
-{
-    Player(Entity *entity)
-    {
-        m_playerEntity = entity;
-        pos = glm::vec3(0.0f); // start at origin.
-        model = glm::mat4(1.0f);
-        /*m_vertexData = m_playerEntity.getVertices(); //real world would just pass 'renderData'*/
-        velX = velY = 0.0f;
-    };
-    void handleInput()
-    {
-        if (Input::keyPressed(SDL_SCANCODE_W))
-        {
-            // std::cout << "w key pressed" << std::endl;
-            velY += 0.01f;
-            // p1.pos.y += 0.01f;
-        }
-        if (Input::keyPressed(SDL_SCANCODE_A))
-        {
-            // std::cout << "a key pressed" << std::endl;
-            velX -= 0.01f;
-            // p1.pos.x -= 0.01f;
-        }
-        if (Input::keyPressed(SDL_SCANCODE_S))
-        {
-            // std::cout << "s key pressed" << std::endl;
-            velY -= 0.01f;
-            // p1.pos.y -= 0.01f;
-        }
-        if (Input::keyPressed(SDL_SCANCODE_D))
-        {
-            // std::cout << "d key pressed" << std::endl;
-            velX += 0.01f;
-            // p1.pos.x += 0.01f;
-        }
-    };
-    void Update()
-    {
-        pos.x += velX;
-        pos.y += velY;
-        /*this->model = glm::translate(model, velocity);*/
-        m_playerEntity->updatePosition(velX, velY);
-        /*std::cout << glm::to_string(m_playerEntity.getModelMatrix()) << std::endl;*/
-        velX = velY = 0.0f;
-        std::cout << "x: " << pos.x << " | " << "y: " << pos.y << std::endl;
-    };
-    /*std::vector<Vertex> m_vertexData;*/
-    glm::vec3 pos;
-    glm::mat4 model;
-    float velX;
-    float velY;
-    Entity *m_playerEntity;
-} Player;
-
 int main(int c, char **argv)
 {
     std::cout << "Current working directory: " << std::__fs::filesystem::current_path() << std::endl;
     Engine::Init(0, 0, "");
     Shader shader("shaders/BasicVertexShader.glsl", "shaders/BasicFragmentShader.glsl");
-    // 
-    /*std::vector<Vertex> playerData{Vertex(-0.25f, -0.25f, 0.0f),*/
-    /*                               Vertex(-0.25f, 0.25f, 0.0f),*/
-    /*                               Vertex(0.25f, -0.25f, 0.0f),*/
-    /*                               Vertex(0.25f, 0.25f, 0.0f),*/
-    /*                               Vertex(-0.25f, 0.25f, 0.0f),*/
-    /*                               Vertex(0.25f, -0.25f, 0.0f)};*/
-    /**/
-    /*Player p1(playerData);*/
-    //    glm::mat4 view = glm::mat4(1.0f);
-    //    glm::vec3 position = glm::vec3(0.0f, 0.0f, -0.3f);
-    //    Camera gameCamera(view, position);
-    // Entity playerEntity(std::string("player"));
     Scene exampleScene("Sandbox", -2.0f, +2.0f, -1.5f, +1.5f);
-    SceneManager::loadScene("Sandbox");
     // add background to scene
     // add player to scene
     // add enemy to scene
-    Entity backgroundEntity("background", {Vertex(1.0f, 1.0f, 0.0f),
-            Vertex(1.0f, 1.0f, 0.0f),
-            Vertex(1.0f, 1.0f, 0.0f),
-            Vertex(1.0f, 1.0f, 0.0f),
-            Vertex(1.0f, 1.0f, 0.0f),
-            Vertex(1.0f, 1.0f, 0.0f)});
+    Entity backgroundEntity("background", {Vertex(-2.0f, -1.5f, 0.0f, 0.5f, 0.3f, 0.2f),
+            Vertex(-2.0f, 1.5f, 0.0f, 0.5f, 0.3f, 0.2f),
+            Vertex(2.0f, -1.5f, 0.0f, 0.5f, 0.3f, 0.2f),
+            Vertex(2.0f, 1.5f, 0.0f, 0.5f, 0.3f, 0.2f),
+            Vertex(-2.0f, 1.5f, 0.0f, 0.5f, 0.3f, 0.2f),
+            Vertex(2.0f, -1.5f, 0.0f, 0.5f, 0.3f, 0.2f)});
 
-    Entity playerEntity("player", {Vertex(-0.25f, -0.25f, 0.0f),
+    Entity playerEntity("player", {Vertex(-0.25f, -0.25f, 0.0f, 0.0f, 0.0f, 1.0f),
+            Vertex(-0.25f, 0.25f, 0.0f, 0.0f, 0.0f, 1.0f),
+            Vertex(0.25f, -0.25f, 0.0f, 0.0f, 0.0f, 1.0f),
+            Vertex(0.25f, 0.25f, 0.0f, 0.0f, 0.0f, 1.0f),
+            Vertex(-0.25f, 0.25f, 0.0f, 0.0f, 0.0f, 1.0f),
+            Vertex(0.25f, -0.25f, 0.0f, 0.0f, 0.0f, 1.0f)});
+
+    Entity aiEntity("ai", {Vertex(-0.25f, -0.25f, 0.0f),
             Vertex(-0.25f, 0.25f, 0.0f),
             Vertex(0.25f, -0.25f, 0.0f),
             Vertex(0.25f, 0.25f, 0.0f),
             Vertex(-0.25f, 0.25f, 0.0f),
             Vertex(0.25f, -0.25f, 0.0f)});
 
-
-    Player p1(&playerEntity);
+    Player p1(playerEntity);
+    /*Player p2(&aiEntity);*/
+    /*p2.m_playerEntity->updatePosition(1.5f, 0.0f);*/
 
     //setup Scene to Renderer pipeline
 
 
-    exampleScene.addEntity(&playerEntity);
-    /*exampleScene.addEntity(&backgroundEntity);*/
+    /*exampleScene.addEntity(&aiEntity);*/
+    /*Game::init();*/
+    SceneManager::loadScene("Sandbox");
+    exampleScene.addEntity(&backgroundEntity);
+    exampleScene.addEntity(&p1.m_playerEntity);
+    /*exampleScene.addEntity(&aiEntity);*/
+
     while (Engine::getState() == Engine::RUNNING)
     {
-
         //- Important core engine things
         //- Game Logic
         //- Render
@@ -134,7 +79,7 @@ int main(int c, char **argv)
         Engine::processInput();
         p1.handleInput();
         p1.Update();
-
+        /*Game::gameLoop();*/
         // std::cout << glm::to_string(p1.model) << std::endl;
         // Renderer::ClearBuffer(glm::vec3(0.0, 0.0, 0.0));
 
@@ -143,7 +88,8 @@ int main(int c, char **argv)
 
         Renderer::Render(shader, SceneManager::getCurrentScene());
         Engine::Update();
-        
+    
+    
     }
 
     Engine::Quit();

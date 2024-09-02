@@ -2,6 +2,7 @@
 #define SCENE_MANAGER_HPP
 
 #include "Scene.hpp"
+/*#include <memory>*/
 #include <string>
 
 namespace SceneManager
@@ -9,7 +10,7 @@ namespace SceneManager
     /*std::unordered_map<std::string sceneName, Scene*> m_SceneMap;*/
     void addScene(Scene &scene);
     void loadScene(std::string sceneName);
-    Scene *getCurrentScene();
+    Scene* getCurrentScene();
     void getAllScenes();
 
 }

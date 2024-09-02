@@ -11,31 +11,25 @@ Planned:
 - Scene Manager
 - Find/handle potential memory leaks
 	- optimizing......!
-- Add more functionality to Vertex Structure
+- Adjust projection matrix scale
+    - so i don't have to use these small screen bounds
 
 Current Task:
 - Write Scene > Scene Object > Render Data pipeline
 
 In Progress:
-- Entity class (will probably rename to SceneObject)
-    - literally just an object in the world space that needs to be rendered
-    - Will be a good idea to create a manager class for these as well
- - Scene class
- 	- make changes to Camera class:: camera should not take references to view and position values, add methods in camera class to update those values as well...
+- Scene class
 	- we want references of Entities not pointers, don't plan on modifying entities from scene directly...
-
-- Scene -> Renderer
-	- A scene will always have a Camera and Screen Dimensions
-	- restructure code to conform to this.
-	- should RenderData ever modify values that are passed to it?
-		- For now, no.
-		- RenderData's job is to prepare the data for the render pass
 
 - Proper Input System
     - Create methods that provide interface to keyboardstate, gamepad state, and mouse state
+
 - Camera class
-	- add methods, and potentially new views later
+    - methods to add:
+        - rotation
+    - 
 
-
+- Add more functionality to Vertex Structure
+    - RGB
 
 

@@ -7,6 +7,7 @@
 // #include "Texture.hpp"
 #include "./Types/RenderTypes.hpp"
 #include "../Scene/Scene.hpp"
+/*#include <memory>*/
 // #include <glad/glad.h>
 
 //Render Pipeline:
@@ -17,7 +18,7 @@ namespace Renderer
 {
     enum RenderMode { DEBUG };
     
-    void Render(Shader &shader,Scene *currentScene);
+    void Render(Shader &shader,Scene* scene);
     void ClearBuffer(glm::vec3 color);
     GLenum CheckError_(const char *file, int line);
     

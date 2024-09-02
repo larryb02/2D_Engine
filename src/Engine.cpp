@@ -1,20 +1,19 @@
 #include "Engine.hpp"
+#include <memory>
+#include <iostream>
 
 namespace Engine
 {
-    SDL_Window *m_window;
+    std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window(nullptr, SDL_DestroyWindow);
     SDL_GLContext m_context;
     SDL_Event m_ev;
     unsigned int m_screenHeight, m_screenWidth;
     State m_engineState;
-    SDL_Keycode keydown;
-    SDL_Keycode keyup;
-    // std::vector<renderData> renderQueue;
 
     void Init(uint32_t height, uint32_t width, std::string title)
     {
 
-        m_window = nullptr;
+        /*m_window = nullptr;*/
         m_screenHeight = 768;
         m_screenWidth = 1366;
         m_engineState = Engine::RUNNING;
@@ -31,19 +30,20 @@ namespace Engine
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-        if ((m_window = SDL_CreateWindow("VIDEO_GAME",
+        m_window.reset(SDL_CreateWindow("VIDEO_GAME",
                                          SDL_WINDOWPOS_CENTERED,
                                          SDL_WINDOWPOS_CENTERED,
                                          m_screenWidth,
                                          m_screenHeight,
-                                         SDL_WINDOW_OPENGL)) == nullptr)
+                                         SDL_WINDOW_OPENGL));
+        if (!m_window)
         {
             std::cerr << "Failed to init SDL Window" << SDL_GetError()
                       << std::endl;
             SDL_Quit();
         }
 
-        m_context = SDL_GL_CreateContext(m_window);
+        m_context = SDL_GL_CreateContext(m_window.get());
 
         if (!gladLoadGLLoader(SDL_GL_GetProcAddress))
         {
@@ -56,7 +56,7 @@ namespace Engine
 
     void Update()
     {
-        SDL_GL_SwapWindow(m_window);
+        SDL_GL_SwapWindow(m_window.get());
         SDL_Delay(16);
     }
 
@@ -64,7 +64,7 @@ namespace Engine
     {
         std::cout << "Closing..." << std::endl;
         SDL_GL_DeleteContext(m_context);
-        SDL_DestroyWindow(m_window);
+        SDL_DestroyWindow(m_window.get());
         SDL_Quit();
     }
 
@@ -96,23 +96,19 @@ namespace Engine
             case SDL_WINDOWEVENT:
                 break;
             default:
-                keydown = 0;
-                keyup = 0;
                 break;
             }
-            // std::cout << (int32_t)keydown << " " << "Key Pressed | Code: " << std::endl;
-            // std::cout << (int32_t)keyup << " " << "Key Released | Code: " << std::endl;
         }
     }
 
-    SDL_Keycode getKeyDown()
-    {
-        return keydown;
-    }
-
-    SDL_Keycode getKeyUp()
-    {
-        return keyup;
-    }
+    /*SDL_Keycode getKeyDown()*/
+    /*{*/
+    /*    return keydown;*/
+    /*}*/
+    /**/
+    /*SDL_Keycode getKeyUp()*/
+    /*{*/
+    /*    return keyup;*/
+    /*}*/
 
 }

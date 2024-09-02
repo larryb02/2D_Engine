@@ -4,6 +4,8 @@
 /*#include "../Renderer/Types/RenderTypes.hpp"*/
 #include "../Camera.hpp"
 #include "./Entity.hpp"
+#include <memory>
+/*#include <memory>*/
 
 // first handle adding items to scene
 // next scene layers
@@ -12,12 +14,12 @@ class Scene
 {
 	public:
 		Scene(const char *name, float leftWidth,float rightWidth, float bottomHeight, float topHeight);
-		void addEntity(Entity *item);
-		void removeEntity(Entity *item);
+		void addEntity(Entity* item);
+		void removeEntity(std::string entityName);
 		/*const Camera &getCamera() const;*/
 		Camera &getCamera();
 		void setCamera(glm::vec3 pos);
-		const Entity *getEntity(const std::string key) const;
+		const Entity* getEntity(const std::string key) const;
 		glm::mat4 setProjection(glm::mat4 proj);
         const glm::mat4 &getProjectionMatrix() const;
         const std::string &getSceneName() const;
