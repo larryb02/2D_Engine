@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.10)
 project(2D_Engine)
 
 #download dependencies
-find_package(SDL2 REQUIRED)
+find_package(SDL2 QUIET)
 if(SDL2_FOUND)
     message(STATUS "SDL2 FOUND!!!")
 else()
@@ -17,6 +17,8 @@ else()
 endif()
 
 FetchContent_MakeAvailable(sdl2)
+
+find_package(SDL2 REQUIRED)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
