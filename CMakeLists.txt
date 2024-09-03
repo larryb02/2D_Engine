@@ -12,14 +12,14 @@ else()
         sdl2
         GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
         GIT_TAG release-2.30.3
-        )
+    )
     message(STATUS "SDL2 NOT FOUND! INSTALLING")
+    FetchContent_MakeAvailable(sdl2)
+
+    find_package(SDL2 REQUIRED)
 endif()
 
-FetchContent_MakeAvailable(sdl2)
-
-find_package(SDL2 REQUIRED)
-
+set(CMAKE_EXPORT_COMPILE_COMMANDS True)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(SRC_DIR "src")
@@ -42,4 +42,5 @@ include_directories(${INCLUDE_PATHS})
 link_directories(${LIBRARY_PATHS})
 add_executable(main ${SRC_FILES})
 target_compile_options(main PRIVATE ${COMPILER_FLAGS})
+target_include_directories(main PRIVATE ${SDL2_INCLUDE_DIRS})
 target_link_libraries(main PRIVATE SDL2)
