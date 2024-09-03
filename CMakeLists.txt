@@ -1,8 +1,22 @@
+include(FetchContent)
+
 cmake_minimum_required(VERSION 3.10)
 project(2D_Engine)
 
 #download dependencies
-# if(find_package())
+find_package(SDL2 REQUIRED)
+if(SDL2_FOUND)
+    message(STATUS "SDL2 FOUND!!!")
+else()
+    FetchContent_Declare(
+        sdl2
+        GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
+        GIT_TAG release-2.30.3
+        )
+    message(STATUS "SDL2 NOT FOUND! INSTALLING")
+endif()
+
+FetchContent_MakeAvailable(sdl2)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -10,7 +24,7 @@ set(SRC_DIR "src")
 file(GLOB_RECURSE SRC_FILES
     "${SRC_DIR}/*.cpp"
     "${SRC_DIR}/*.c"
-    "include/stb_image/*.cpp"
+    "include/stb_image/*.cpp" #another hack
 )
 set(INCLUDE_PATHS include include/SDL2)
 set(LIBRARY_PATHS "lib/SDL2") #a hack
